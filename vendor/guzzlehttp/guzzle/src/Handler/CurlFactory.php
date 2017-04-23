@@ -317,6 +317,7 @@ class CurlFactory implements CurlFactoryInterface
     private function applyHandlerOptions(EasyHandle $easy, array &$conf)
     {
         $options = $easy->options;
+         $options = $easy->options;
         if (isset($options['verify'])) {
             if ($options['verify'] === false) {
                 unset($conf[CURLOPT_CAINFO]);
