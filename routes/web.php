@@ -12,4 +12,4 @@ Route::get('/', function () {
 Auth::routes(['login' => 'auth.login']);
 
 
-Route::get('/home', 'HomeController@index');
+Route::get('/home', ['as'=>'user.home','uses'=> 'HomeController@index']);

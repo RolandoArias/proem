@@ -63,17 +63,17 @@ class SocialController extends Controller
         if (!empty($userCheck)) {
             $socialUser = $userCheck;
 
-            if($userCheck->login==1){
+            /*if($userCheck->login==1){
                 return redirect()->route('public.home')->with('noactivate', 'Sesion ya Existe')->with('user_id', $userCheck->id);   
-            }
+            }*/
         }
         else {
             
             $sameSocialId = Social::where('social_id', '=', $user->id)
                 ->where('provider', '=', $provider )
                 ->first();   
-           
-            if (!is_null($sameSocialId)) {
+            
+            if (!$sameSocialId) {
             
                 //There is no combination of this social id and provider, so create new one
 
