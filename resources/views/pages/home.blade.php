@@ -1,4 +1,4 @@
-@extends('layouts.main_pro')
+@extends('layouts.main')
 
 @section('content')
     <style>
