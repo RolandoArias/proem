@@ -39,7 +39,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     public function roles()
     {
-        return $this->belongsToMany('App\Models\Front\Role')->withTimestamps();
+        return $this->belongsToMany('App\Models\Role')->withTimestamps();
     }
 
     public function hasRole($name)
