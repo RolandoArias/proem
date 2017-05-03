@@ -24,7 +24,7 @@
                 <li class="hidden-xs hidden-sm"><a href="mailto:contacto@promin.mx" class="a-email"><i class="fa fa-envelope"></i> contacto@promin.mx</a></li>
                 <li class="hidden-xs hidden-sm"><a href="tel:+52-55-2643-0892" class="tel_top"><i class="fa fa-phone"></i> 2643-0892</a></li>
                 <li class="hidden-xs hidden-sm"><a href="tel:+52-55-7155-5874" class="tel_top"><i class="fa fa-phone"></i> 7155-5874</a></li>
-                <li>@include ('includes.carrito')</li> 
+                <li>@include ('front.includes.carrito')</li> 
             </ul>
         </div>
     </div>

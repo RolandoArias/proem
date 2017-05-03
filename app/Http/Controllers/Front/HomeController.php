@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Front;
 
 use Illuminate\Http\Request;
 
@@ -23,11 +23,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('front.home');
     }
 
     public function getMiCuenta()
     {
-        return view('pages.mi-cuenta')->with('carousel',false);;
+        return view('front.pages.mi-cuenta')->with('carousel',false);;
     }
 }

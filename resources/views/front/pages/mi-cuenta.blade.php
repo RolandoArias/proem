@@ -1,5 +1,5 @@
-@extends('layouts.main')
+@extends('front.layouts.main')
 
 @section('content')     
-    @include('includes.mi_cuenta_contenido')
+    @include('front.includes.mi_cuenta_contenido')
 @stop

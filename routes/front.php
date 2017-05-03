@@ -10,8 +10,8 @@ Route::get('/', function () { return view('front.index')->with('carousel',true);
 
 
 Route::group(['middleware' => ['auth']], function () {    
-	Route::get('/mi-cuenta', ['as'=>'user.mi-cuenta','uses'=> 'HomeController@getMiCuenta']);
-	Route::post('/update/edit_profile', ['as'=>'user.edit-user','uses'=> 'UserFrontController@postSaveUser']);
+	Route::get('/mi-cuenta', ['as'=>'user.mi-cuenta','uses'=> '\App\Http\Controllers\Front\HomeController@getMiCuenta']);
+	Route::post('/update/edit_profile', ['as'=>'user.edit-user','uses'=> '\App\Http\Controllers\Front\UserFrontController@postSaveUser']);
 });
 
 #Rutas de pruebas

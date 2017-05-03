@@ -53,7 +53,7 @@ class SocialController extends Controller
         #Verifica si hay email
         $userCheck = User::where('email', '=', $user->email)->first();
 
-        $email = $user->email;
+        
 
         if (!$user->email) {
             #Cuando no tenemos email de las redes socailes
@@ -61,6 +61,9 @@ class SocialController extends Controller
         }
         
         if (!empty($userCheck)) {
+            
+
+
             $socialUser = $userCheck;
 
             /*if($userCheck->login==1){
@@ -73,12 +76,12 @@ class SocialController extends Controller
                 ->where('provider', '=', $provider )
                 ->first();   
             
-            if (!$sameSocialId) {
-            
+            if (is_null($sameSocialId)) {
+                
                 //There is no combination of this social id and provider, so create new one
 
                 $newSocialUser = new User;
-                $newSocialUser->email = $email;
+                $newSocialUser->email = $user->email;
                 $name = explode(' ', $user->name);
                 
                 if (count($name) >= 1) {
@@ -124,7 +127,6 @@ class SocialController extends Controller
         
         
   
-
         auth()->login($socialUser, true);
         $id = Auth::user()->id;
         $user = User::find(Auth::user()->id);
