@@ -1,4 +1,5 @@
-<?php namespace App\Models\Front;
+<?php 
+namespace App\Models\Front;
 
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
@@ -38,7 +39,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     public function roles()
     {
-        return $this->belongsToMany('App\Models\Role')->withTimestamps();
+        return $this->belongsToMany('App\Models\Front\Role')->withTimestamps();
     }
 
     public function hasRole($name)
@@ -63,7 +64,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     public function social()
     {
-        return $this->hasMany('App\Models\Social');
+        return $this->hasMany('App\Models\Front\Social');
     }
 
     public function homeUrl()

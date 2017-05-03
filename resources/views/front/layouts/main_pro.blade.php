@@ -159,7 +159,7 @@
             </thead>  
             <tbody>
              <?php   $t =0; $t2 =0;  ?>
-            @foreach(App\Models\User::resumen(Auth::user()->id) as $v)
+            @foreach(App\Models\Front\User::resumen(Auth::user()->id) as $v)
             <?php $v = (object) $v;    ?>
                 <tr>
                     <td class="" style=" font-size:26px;   vertical-align: middle;">{{$v->item}}</td>
@@ -179,7 +179,7 @@
                     <td class="text blue" style=" font-size:26px;     vertical-align: middle;padding: 0 !important;margin: 0;">{{$t2}}</td>
                 </tr>
                 <tr style="border-top: 1px solid white; ">
-                    <td colspan="3" class="text red" style="font-size: 16px;padding: 0 !important;margin: 0;">SQDOS Utilizados {{App\Models\User::misPuntosOfertados()}} </td>
+                    <td colspan="3" class="text red" style="font-size: 16px;padding: 0 !important;margin: 0;">SQDOS Utilizados {{App\Models\Front\User::misPuntosOfertados()}} </td>
                 </tr>
                  <tr>
                     <td colspan="3" class="text red" style="margin: 0;padding: 0;color: white;font-size: 12px;text-align: center;text-transform: uppercase;width: 251px;margin-left: 31px;">SQDOS para canjear  {{Auth::user()->mispuntos()}}  </td>
@@ -210,13 +210,13 @@
                 <p class="text_white">Resumen de SQDOS</p>
             </div>
             <div class="col-md-12">
-                @foreach(App\Models\User::resumen(Auth::user()->id) as $fa)
+                @foreach(App\Models\Front\User::resumen(Auth::user()->id) as $fa)
                     <?php $fa = (object) $fa;    ?>  
                     <div class="col-md-2"> <img width="50" src="{{$fa->img}}" alt=""> </div>
                 @endforeach                
             </div>
             <div class="col-md-12">
-                @foreach(App\Models\User::resumen(Auth::user()->id) as $fa)
+                @foreach(App\Models\Front\User::resumen(Auth::user()->id) as $fa)
                     <?php $fa = (object) $fa;    ?>                  
                     <div class="col-md-2">
                         <span>{{$fa->item}}</span>
@@ -230,7 +230,7 @@
                 <p class="text_white">Productos por los que participo</p>
             </div>
             <div class="col-md-12">
-                @foreach(App\Models\User::misArticulosPerfil() as $fa)               
+                @foreach(App\Models\Front\User::misArticulosPerfil() as $fa)               
                     <?php 
                         $fa = (object) $fa;    
                         $art = App\Models\Article::find($fa->articulo_id);
