@@ -7,7 +7,7 @@ use Illuminate\Http\Response;
 
 use Illuminate\Routing\ResponseFactory;
 use Auth;
-use App\Models\Front\User;
+use App\Models\User;
 
 class UserFrontController extends Controller
 {

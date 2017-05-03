@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
 #use App\Traits\ActivationTrait;
 use App\Models\Front\Social;
-use App\Models\Front\User;
-use App\Models\Front\Role;
+use App\Models\User;
+use App\Models\Role;
 
 
 use Illuminate\Contracts\Auth\Guard;

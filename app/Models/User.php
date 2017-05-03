@@ -1,5 +1,5 @@
 <?php 
-namespace App\Models\Front;
+namespace App\Models;
 
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
