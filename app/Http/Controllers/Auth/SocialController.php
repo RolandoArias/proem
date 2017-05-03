@@ -135,7 +135,7 @@ class SocialController extends Controller
 
         if ( auth()->user()->hasRole('user')) {
 
-            return redirect()->route('user.home');
+            return redirect()->route('user.mi-cuenta');
 
         }
 

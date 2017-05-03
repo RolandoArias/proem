@@ -75,6 +75,9 @@ class CurlFactory implements CurlFactoryInterface
             curl_setopt($resource, CURLOPT_READFUNCTION, null);
             curl_setopt($resource, CURLOPT_WRITEFUNCTION, null);
             curl_setopt($resource, CURLOPT_PROGRESSFUNCTION, null);
+            curl_setopt($resource, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($resource, CURLOPT_CAINFO, "https://curl.haxx.se/ca/cacert.pem");
+            
             curl_reset($resource);
             $this->handles[] = $resource;
         }
@@ -178,7 +181,7 @@ class CurlFactory implements CurlFactoryInterface
             'cURL error %s: %s (%s)',
             $ctx['errno'],
             $ctx['error'],
-            'see http://curl.haxx.se/libcurl/c/libcurl-errors.html'
+            'see rr http://curl.haxx.se/libcurl/c/libcurl-errors.html'
         );
 
         // Create a connection exception if it was a specific error code.
@@ -197,6 +200,7 @@ class CurlFactory implements CurlFactoryInterface
             CURLOPT_URL            => (string) $easy->request->getUri()->withFragment(''),
             CURLOPT_RETURNTRANSFER => false,
             CURLOPT_HEADER         => false,
+            CURLOPT_SSL_VERIFYPEER => false,
             CURLOPT_CONNECTTIMEOUT => 150,
         ];
 
@@ -317,15 +321,14 @@ class CurlFactory implements CurlFactoryInterface
     private function applyHandlerOptions(EasyHandle $easy, array &$conf)
     {
         $options = $easy->options;
-         $options = $easy->options;
         if (isset($options['verify'])) {
             if ($options['verify'] === false) {
                 unset($conf[CURLOPT_CAINFO]);
                 $conf[CURLOPT_SSL_VERIFYHOST] = 0;
                 $conf[CURLOPT_SSL_VERIFYPEER] = false;
-            } else {
+            } else { 
                 $conf[CURLOPT_SSL_VERIFYHOST] = 2;
-                $conf[CURLOPT_SSL_VERIFYPEER] = true;
+                $conf[CURLOPT_SSL_VERIFYPEER] = false;/*
                 if (is_string($options['verify'])) {
                     $conf[CURLOPT_CAINFO] = $options['verify'];
                     if (!file_exists($options['verify'])) {
@@ -333,7 +336,7 @@ class CurlFactory implements CurlFactoryInterface
                             "SSL CA bundle not found: {$options['verify']}"
                         );
                     }
-                }
+                }*/
             }
         }
 
