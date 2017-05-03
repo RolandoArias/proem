@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Front;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+
+use Illuminate\Routing\ResponseFactory;
 use Auth;
 use App\Models\Front\User;
 
@@ -15,7 +18,7 @@ class UserFrontController extends Controller
     }
 
    
-    public function postSaveUser(Request $req)
+    public function postSaveUser(Request $req, Response $res)
     {
         
         $pass = $req->get("password");
@@ -46,9 +49,9 @@ class UserFrontController extends Controller
         $user->save();
 
         if($user){
-            return respose()->json(['success'=>true]);
+            return response()->json(['success'=>true]);
         }else{
-            return respose()->json(['success'=>false]);            
+            return response()->json(['success'=>false]);            
         }
     }
 

@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Front\Social;
 use App\Models\Front\User;
 use App\Models\Front\Role;
+
+
 use Illuminate\Contracts\Auth\Guard;
 use Artisan,DB,Auth,Mail;
 
