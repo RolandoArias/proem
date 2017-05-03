@@ -1,7 +1,7 @@
 <div class="col-md-3 left_col">
   <div class="left_col scroll-view">
     <div class="navbar nav_title" style="border: 0;">
-      <a href="dashboard.php" class="site_title"><img src="{{asset('asset/images/proveedora-equipos-mineros-promin-logo.png')}}" alt=""> <span>Panel PROMIN</span></a>
+      <a href="dashboard.php" class="site_title"><img src="{{asset('asset_admin/images/proveedora-equipos-mineros-promin-logo.png')}}" alt=""> <span>Panel PROMIN</span></a>
     </div>
 
     <div class="clearfix"></div>
@@ -9,7 +9,7 @@
     <!-- Imagen Perfil -->
     <div class="profile clearfix">
       <div class="profile_pic">
-        <img src="{{asset('asset/images/img.jpg')}}" alt="..." class="img-circle profile_img">
+        <img src="{{asset('asset_admin/images/img.jpg')}}" alt="..." class="img-circle profile_img">
       </div>
       <div class="profile_info">
         <span>Bienvenido,</span>

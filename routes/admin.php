@@ -10,15 +10,15 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-/*
+
 use Illuminate\Support\Facades\Auth;
 
-Route::get('/', function () {
+Route::get('admin/', function () {
     if (Auth::check()) {
         return redirect('/home');
     }
 
-    return view('auth.login');
+    return view('admin.auth.login');
 });
 
 
@@ -27,4 +27,4 @@ Route::group(['middleware' => ['auth'],'prefix' => 'admin'], function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('accesos', 'AccesosController');
 });
-*/
+

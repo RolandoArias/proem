@@ -12,9 +12,9 @@
     <link rel="shortcut icon" href="{{asset('favicon.ico')}}">
 
     <!-- FOOTER -->
-    @include('includes.area_css')
+    @include('admin.includes.area_css')
 
-    <link href="{{asset('asset/css/login.css')}}" rel="stylesheet">
+    <link href="{{asset('asset_admin/css/login.css')}}" rel="stylesheet">
     
   </head>
 
@@ -26,7 +26,7 @@
           
         
         <div class="text-center" style="padding:50px 0">
-          <div class="logo"><img src="{{asset('asset/images/promin-logo.png')}}" alt=""></div>
+          <div class="logo"><img src="{{asset('asset_admin/images/promin-logo.png')}}" alt=""></div>
           <!-- Main Form -->
           <div class="login-form-1">
             <form  class="text-left" method="POST" action="{{ route('login') }}">
@@ -66,7 +66,7 @@
     </div>
     
     <!-- JS -->
-    @include('includes.area_js')
+    @include('admin.includes.area_js')
     
   </body>
 </html>
