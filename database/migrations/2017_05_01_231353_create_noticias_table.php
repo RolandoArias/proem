@@ -17,8 +17,8 @@ class CreateNoticiasTable extends Migration
             $table->increments('id');
             $table->string('title',100);
             $table->text('content');
-            $table->interger('type');
-            $table->interget('state');
+            $table->integer('type');
+            $table->integer('state');
             $table->string('link', 255);
             $table->timestamps();
         });
