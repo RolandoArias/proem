@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
 use Validator;
@@ -9,6 +8,7 @@ use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Role;
+use Form;
 
 class AccesosController extends Controller
 {
@@ -24,8 +24,17 @@ class AccesosController extends Controller
                 ->join('role_user', 'role_user.user_id', '=', 'users.id')     
                 ->join('roles', 'role_user.role_id', '=', 'roles.id')
                 ->where('roles.name','<>','administrator') 
+                ->select(
+                    'users.id as id',
+                    'users.name as name',
+                    'users.last_name as last_name',
+                    'users.parental_name as parental_name',
+                    'users.email as email',                   
+                    'users.picture as picture',                   
+                    'users.created_at as created_at'
+                )
                 ->paginate(10);   
-      
+     
         return view('admin.pages.accesos.index')->with(['users'=>$users]);
     }
 
@@ -48,7 +57,6 @@ class AccesosController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'admin' => 'required|min:1|max:255',
             'email' => 'required|unique:users|max:255',
             'name' => 'required|min:1|max:50',
             'last_name' => 'required',
@@ -64,7 +72,6 @@ class AccesosController extends Controller
 
         $user = new User;
         $user->email = $request->email;
-        $user->admin = $request->admin;
         $user->name = $request->name;
         $user->last_name = $request->last_name;
         $user->parental_name = $request->parental_name;
@@ -129,7 +136,6 @@ class AccesosController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'admin' => 'required|min:1|max:255',
             'email' => 'required|email|unique:users,email,'.$id,
             'name' => 'required|min:1|max:50',
             'last_name' => 'required',
@@ -149,7 +155,6 @@ class AccesosController extends Controller
         }
 
         $user->email = $request->email;
-        $user->admin = $request->admin;
         $user->name = $request->name;
         $user->last_name = $request->last_name;
         $user->parental_name = $request->parental_name;
@@ -172,7 +177,7 @@ class AccesosController extends Controller
             {
                 $file_picture->move("asset/images/",$picture); 
             }
-            return redirect('accesos');
+            return redirect('/admin/accesos');
         }
 
         return var_dump('404');
@@ -186,10 +191,11 @@ class AccesosController extends Controller
      */
     public function destroy($id)
     {
+
         $user = User::find($id);
-        if($user){
-            $user->delete();
-            return redirect('accesos');
-        }
+        $user->delete();
+            return redirect('/admin/accesos');
+         
+ 
     }
 }

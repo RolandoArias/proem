@@ -9,7 +9,7 @@
   <div class="row">
     <div class="col-md-6">
       <h1><i class="fa fa-key"></i> Accesos</h1>
-      <a href="{{url('accesos/create')}}" class="btn btn-round btn-success btn-md"><i class="fa fa-plus"></i> Agregar</a>
+      <a href="{{url('admin/accesos/create')}}" class="btn btn-round btn-success btn-md"><i class="fa fa-plus"></i> Agregar</a>
       <a class="btn btn-round btn-primary btn-md" role="button" data-toggle="collapse" href="#herramientas" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-filter"></i> <i class="fa fa-search"></i></a>
     </div>
   </div><!-- FIN ROW -->
@@ -97,14 +97,15 @@
         </thead>
         <tbody>
         @foreach($users as $user)
+        
           <tr>
             <td>{{Carbon\Carbon::parse($user->created_at)->format('d-M-Y')}}</td>
             <td><img src="{{asset($user->picture)}}" alt="" class="img-circle img-thumbnail" width="50"></td>
             <td>{{$user->name}} {{$user->last_name}}</td>
             <td>{{$user->email}}</td>                          
-            <td> </td>
+            <td> {{$user->id}} </td>
             <td>
-              <a href="{{url('accesos/'.$user->id.'/edit')}}" class="btn btn-warning btn-xs" alt="Editar"><i class="fa fa-pencil"></i></a>
+              <a href="{{url('admin/accesos/'.$user->id.'/edit')}}" class="btn btn-warning btn-xs" alt="Editar"><i class="fa fa-pencil"></i></a>
               <a href="{{ route('accesos.destroy',$user->id) }}" onclick="event.preventDefault(); document.getElementById('del-form').submit();" class="btn btn-danger btn-xs" alt="Eliminar"><i class="fa fa-remove"></i></a>
               <form id="del-form" action="{{ route('accesos.destroy',$user->id) }}" method="POST" style="display: none;">
                 {{ csrf_field() }}
