@@ -33,7 +33,7 @@ class Authenticate
     {
         if(!$this->auth->check())
         {
-            return redirect()->to('/login')
+            return redirect()->to('/')
                 ->with('status', 'success')
                 ->with('message', 'Please login.');
         }
@@ -82,7 +82,11 @@ class Authenticate
                 }*/
 
                 
+        if ( $this->auth->user()->hasRole('administrator')) {
 
+            return redirect('/admin');
+
+        }
                 
               
         if($role == 'all')

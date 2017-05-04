@@ -16,7 +16,9 @@ trait AuthenticatesUsers
      */
     public function showLoginForm()
     {
-        return view('auth.login');
+        #return view('auth.login');
+        return redirect('/');
+        
     }
 
     /**
@@ -99,7 +101,12 @@ trait AuthenticatesUsers
         $request->session()->regenerate();
 
         $this->clearLoginAttempts($request);
+        
+          if ( Auth::user()->hasRole('administrator')) {
 
+            return redirect('/admin/dashboard');
+
+        }
         return $this->authenticated($request, $this->guard()->user())
                 ?: redirect()->intended($this->redirectPath());
     }

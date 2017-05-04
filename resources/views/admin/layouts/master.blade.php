@@ -12,7 +12,7 @@
     <link rel="shortcut icon" href="{{asset('favicon.ico')}}">
 
     <!-- FOOTER -->
-    @include('includes/area_css')
+    @include('admin.includes/area_css')
     
   </head>
 
@@ -24,10 +24,10 @@
           
         
         <!-- LEFT NAV -->
-        @include('includes/menu_nav')
+        @include('admin.includes/menu_nav')
 
         <!-- TOP NAV -->
-        @include('includes/area_top_nav')
+        @include('admin.includes/area_top_nav')
 
         <!-- page content -->
         <div class="right_col" role="main">
@@ -38,7 +38,7 @@
         <!-- /page content -->
 
         <!-- FOOTER -->
-        @include('includes/area_footer')
+        @include('admin.includes/area_footer')
      
 
         
@@ -46,7 +46,7 @@
     </div>
     
     <!-- JS -->
-    @include('includes/area_js')
+    @include('admin.includes/area_js')
 
     <!-- Modal Venta -->
     @yield('js-script')

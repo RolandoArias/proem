@@ -146,7 +146,7 @@
                             <div class="row">
                                 <div class="col-md-12 text-right">
                                     <br>
-                                    <span class="msj_success"><i class="fa fa-check"></i> Tu información se ha actualizado</span>
+                                    <span class="msj_success hide"><i class="fa fa-check"></i> Tu información se ha actualizado</span>
                                     <br><br>
                                     <button id="saveFormProfile" class="btn btn_checkout"><i class="fa fa-floppy-o"></i> Guardar</button>
                                     <br><br>              

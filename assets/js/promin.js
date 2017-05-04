@@ -70,7 +70,6 @@ var promin = {
     },
     edit_profile: function() {
         console.log("Promin.edit_profile");
-
         var picture = $('#picture').val();
         var name = $('#name').val();
         var last_name = $('#last_name').val();
@@ -98,8 +97,10 @@ var promin = {
             },
             success: function(data) {
                 console.log("success");
-                
-                //window.location.href="/mi-cuenta";
+                $('.msj_success').removeClass('hide');
+                setTimeout(function() {
+                    $('.msj_success').addClass('hide');
+                }, 1000);
             },
             error: function(data) {
                 console.log("error");
@@ -112,6 +113,7 @@ var promin = {
                 });
                 errorsHtml += '</ul></di>';
                 $('#form-errors-edir-perfil').html(errorsHtml); //appending to a <div id="form-errors"></div> inside form
+
             }
         });
     },

@@ -51,7 +51,7 @@ class UserFrontController extends Controller
         if($user){
             return response()->json(['success'=>true]);
         }else{
-            return response()->json(['success'=>false]);            
+            return response()->json(['success'=>"Ha ocurrido algo al momento de guardar"],303);            
         }
     }
 

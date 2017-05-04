@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('admin/', function () {
     if (Auth::check()) {
-        return redirect('/home');
+        return redirect('admin/dashboard');
     }
 
     return view('admin.auth.login');
@@ -24,7 +24,7 @@ Route::get('admin/', function () {
 
 
 Route::group(['middleware' => ['auth'],'prefix' => 'admin'], function () {    
-    Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/dashboard', '\App\Http\Controllers\Admin\HomeController@index')->name('home');
     Route::resource('accesos', 'AccesosController');
 });
 
