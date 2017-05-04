@@ -4,65 +4,71 @@ $.ajaxSetup({
     }
 });
 var promin = {
-    firstName:"John",
+    firstName: "John",
     lastName: "Doe",
-    register: function () {
+    register: function() {
         console.log("Promin.Register")
         var email = $('#email_register').val();
         var pass = $('#pass').val();
-        if(!$('#aviso').prop( "checked" )){
+        if (!$('#aviso').prop("checked")) {
             alert("Debe Aceptar los Terminos Y condiciones");
             return false;
         }
         $.ajax({
             method: "POST",
             url: "/register",
-            data: { email: email, password: pass },
-            success: function(data){
-                console.log("success");
-                window.location.href="/mi-cuenta";
+            data: {
+                email: email,
+                password: pass
             },
-            error: function(data){
+            success: function(data) {
+                console.log("success");
+                window.location.href = "/mi-cuenta";
+            },
+            error: function(data) {
                 console.log("error");
                 // Log in the console
                 var errors = data.responseJSON;
                 console.log(errors);
                 var errorsHtml = '<div class="alert alert-danger"><ul>';
-                 $.each( errors, function( key, value ) {
-                       errorsHtml += '<li>'+ value + '</li>'; 
-                 });
-                 errorsHtml += '</ul></di>';
-                 $( '#form-errors' ).html( errorsHtml ); //appending to a <div id="form-errors"></div> inside form  
+                $.each(errors, function(key, value) {
+                    errorsHtml += '<li>' + value + '</li>';
+                });
+                errorsHtml += '</ul></di>';
+                $('#form-errors').html(errorsHtml); //appending to a <div id="form-errors"></div> inside form  
             }
         });
     },
-    login: function () {
+    login: function() {
         console.log("Promin.Login")
         var email = $('#email_login').val();
         var pass = $('#login-password').val();
         $.ajax({
             method: "POST",
             url: "/login",
-            data: { email: email, password: pass },
-            success: function(data){
-                console.log("success");
-                window.location.href="/mi-cuenta";
+            data: {
+                email: email,
+                password: pass
             },
-            error: function(data){
+            success: function(data) {
+                console.log("success");
+                window.location.href = "/mi-cuenta";
+            },
+            error: function(data) {
                 console.log("error");
                 // Log in the console
                 var errors = data.responseJSON;
                 console.log(errors);
                 var errorsHtml = '<div class="alert alert-danger"><ul>';
-                 $.each( errors, function( key, value ) {
-                       errorsHtml += '<li>'+ value + '</li>'; 
-                 });
-                 errorsHtml += '</ul></di>';
-                 $( '#form-errors-login' ).html( errorsHtml ); //appending to a <div id="form-errors"></div> inside form  
+                $.each(errors, function(key, value) {
+                    errorsHtml += '<li>' + value + '</li>';
+                });
+                errorsHtml += '</ul></di>';
+                $('#form-errors-login').html(errorsHtml); //appending to a <div id="form-errors"></div> inside form  
             }
         });
     },
-    edit_profile: function () {
+    edit_profile: function() {
         console.log("Promin.edit_profile");
 
         var picture = $('#picture').val();
@@ -72,46 +78,48 @@ var promin = {
         var password = $('#password').val();
         var password_2 = $('#password_2').val();
 
-        if(password==password_2){
-           
-        }else{
+        if (password == password_2) {
+
+        } else {
             alert("La contraseña debe ser iguales.");
-            return false; 
+            return false;
         }
 
         $.ajax({
             method: "POST",
             url: "/update/edit_profile",
-            data: { 
-                    name: name, 
-                    last_name: last_name,
-                    password: password, 
-                    password_2: password_2,
-                    picture: picture 
+            data: {
+                name: name,
+                last_name: last_name,
+                password: password,
+                password_2: password_2,
+                telephone: telephone,
+                picture: picture
             },
-            success: function(data){
+            success: function(data) {
                 console.log("success");
+                
                 //window.location.href="/mi-cuenta";
             },
-            error: function(data){
+            error: function(data) {
                 console.log("error");
                 // Log in the console
                 var errors = data.responseJSON;
                 console.log(errors);
                 var errorsHtml = '<div class="alert alert-danger"><ul>';
-                 $.each( errors, function( key, value ) {
-                       errorsHtml += '<li>'+ value + '</li>'; 
-                 });
-                 errorsHtml += '</ul></di>';
-                 $( '#form-errors-edir-perfil' ).html( errorsHtml ); //appending to a <div id="form-errors"></div> inside form  
+                $.each(errors, function(key, value) {
+                    errorsHtml += '<li>' + value + '</li>';
+                });
+                errorsHtml += '</ul></di>';
+                $('#form-errors-edir-perfil').html(errorsHtml); //appending to a <div id="form-errors"></div> inside form
             }
         });
     },
-    readURL:function(input) {
+    readURL: function(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
 
-            reader.onload = function (e) {
+            reader.onload = function(e) {
                 $('#profileImg').attr('src', e.target.result);
                 $("#picture").val(e.target.result);
 
@@ -137,5 +145,5 @@ $(document).ready(function() {
         event.preventDefault();
         promin.edit_profile();
     });
-        
+
 });

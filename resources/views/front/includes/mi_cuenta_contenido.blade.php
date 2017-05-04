@@ -10,7 +10,7 @@
                   <div id="form-errors-edir-perfil"></div>
                 </div>
             </div>
-
+          
             <div class="row">
                 <div class="col-md-12">
                     <ul class="nav nav-tabs" role="tablist">
@@ -30,11 +30,11 @@
                                     <input type="file" onchange="promin.readURL(this);">
                                     <br>
                                     <input type="hidden" id="picture">
-                                    <input id="name" type="text" class="form-control custom_in" placeholder="* Nombre">
+                                    <input id="name" value="{{Auth::user()->name}}"  type="text" class="form-control custom_in" placeholder="* Nombre">
                                     <br>
-                                    <input id="last_name" type="text" class="form-control custom_in" placeholder="* Apellido Paterno">
+                                    <input id="last_name" value="{{Auth::user()->last_name}}" type="text" class="form-control custom_in" placeholder="* Apellido Paterno">
                                     <br>
-                                    <input id="telephone" type="text" class="form-control custom_in" placeholder="* Teléfono">
+                                    <input id="telephone" value="{{Auth::user()->telephone}}" type="text" class="form-control custom_in" placeholder="* Teléfono">
                                 </div>
                                 
                                 <div class="col-md-3 col-md-offset-2">
