@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Role;
 use Form;
+use Auth;
 
 class AccesosController extends Controller
 {
@@ -23,13 +24,15 @@ class AccesosController extends Controller
         $users = DB::table('users')
                 ->join('role_user', 'role_user.user_id', '=', 'users.id')     
                 ->join('roles', 'role_user.role_id', '=', 'roles.id')
-                ->where('roles.name','<>','administrator') 
+                ->where('roles.name','<>','user') 
+                ->where('users.id','<>',Auth::user()->id) 
                 ->select(
                     'users.id as id',
                     'users.name as name',
                     'users.last_name as last_name',
                     'users.parental_name as parental_name',
                     'users.email as email',                   
+                    'roles.name as role',                   
                     'users.picture as picture',                   
                     'users.created_at as created_at'
                 )
@@ -56,6 +59,7 @@ class AccesosController extends Controller
      */
     public function store(Request $request)
     {
+
         $validator = Validator::make($request->all(), [
             'email' => 'required|unique:users|max:255',
             'name' => 'required|min:1|max:50',
@@ -76,6 +80,8 @@ class AccesosController extends Controller
         $user->last_name = $request->last_name;
         $user->parental_name = $request->parental_name;
         $user->picture = $request->picture;
+
+        
         if($request->file('picture')!=NULL)
         {
             //agrega imagen de picture
@@ -89,13 +95,18 @@ class AccesosController extends Controller
         }else{
             $user->picture = url('asset/images').'/img.jpg';
         }
+
         if($user->save()){
+            
+            $userRole = Role::whereName($request->admin)->first();
+            $user->assignRole($userRole);
+            
             if($request->file('picture')!=NULL)
             {
                 $file_picture->move("asset/images/",$picture); 
             }
 
-            return redirect('accesos');
+            return redirect('/admin/accesos');
         }
 
     }

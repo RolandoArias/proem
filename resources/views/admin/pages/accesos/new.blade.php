@@ -18,11 +18,11 @@
           <div class="col-xs-12 col-sm-12 col-md-3">
             <label>Tipo de Acceso</label>
             <select class="form-control" name="admin">
-              <option value="1">Administrador</option>
-              <option value="2">Ventas</option>
-              <option value="3">Compras</option>
-              <option value="4">Staff</option>
-              <option value="5">Servicio</option> <!-- sólo tiene acceso a tab de control de entrada y tab bitácora -->
+              <option value="administrator">Administrador</option>
+              <option value="ventas">Ventas</option>
+              <option value="compras">Compras</option>
+              <option value="staff">Staff</option>
+              <option value="servicio">Servicio</option> <!-- sólo tiene acceso a tab de control de entrada y tab bitácora -->
             </select>
           </div>
         
