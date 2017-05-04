@@ -102,7 +102,7 @@
             <td><img src="{{asset($user->picture)}}" alt="" class="img-circle img-thumbnail" width="50"></td>
             <td>{{$user->name}} {{$user->last_name}}</td>
             <td>{{$user->email}}</td>                          
-            <td>{{trans('main.acceso-'.$user->admin)}}</td>
+            <td> </td>
             <td>
               <a href="{{url('accesos/'.$user->id.'/edit')}}" class="btn btn-warning btn-xs" alt="Editar"><i class="fa fa-pencil"></i></a>
               <a href="{{ route('accesos.destroy',$user->id) }}" onclick="event.preventDefault(); document.getElementById('del-form').submit();" class="btn btn-danger btn-xs" alt="Eliminar"><i class="fa fa-remove"></i></a>

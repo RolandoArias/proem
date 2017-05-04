@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Validator;
+use DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
-use App\User;
+use App\Models\User;
+use App\Models\Role;
 
 class AccesosController extends Controller
 {
@@ -17,8 +19,14 @@ class AccesosController extends Controller
      */
     public function index()
     {
-        $users = User::where('admin', '>', 0)->paginate(10);
-        return view('pages.accesos.index')->with(['users'=>$users]);
+        //$users = User::where('admin', '>', 0)->paginate(10);
+        $users = DB::table('users')
+                ->join('role_user', 'role_user.user_id', '=', 'users.id')     
+                ->join('roles', 'role_user.role_id', '=', 'roles.id')
+                ->where('roles.name','<>','administrator') 
+                ->paginate(10);   
+      
+        return view('admin.pages.accesos.index')->with(['users'=>$users]);
     }
 
     /**
@@ -28,7 +36,7 @@ class AccesosController extends Controller
      */
     public function create()
     {
-       return view('pages.accesos.new');
+       return view('admin.pages.accesos.new');
     }
 
     /**
@@ -106,7 +114,7 @@ class AccesosController extends Controller
     {
         $user = User::find($id);
         if($user){
-            return view('pages.accesos.edit')->with(['user'=>$user]);
+            return view('admin.pages.accesos.edit')->with(['user'=>$user]);
         }
         return var_dump('404');
     }

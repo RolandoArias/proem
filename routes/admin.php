@@ -25,6 +25,6 @@ Route::get('admin/', function () {
 
 Route::group(['middleware' => ['auth'],'prefix' => 'admin'], function () {    
     Route::get('/dashboard', '\App\Http\Controllers\Admin\HomeController@index')->name('home');
-    Route::resource('accesos', 'AccesosController');
+    Route::resource('accesos', '\App\Http\Controllers\Admin\AccesosController');
 });
 
