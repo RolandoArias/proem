@@ -34,7 +34,7 @@
               <li><a href="cat-tipo-producto.php"><i class="fa fa-cubes"></i> Tipo de producto</a></li>
               <li><a href="cat-marcas.php"><i class="fa fa-trademark"></i> Marcas</a></li>
               <li><a href="cat-modelos.php"><i class="fa fa-tag"></i> Modelos</a></li>
-              <li><a href="cat-accesos.php"><i class="fa fa-key"></i> Accesos</a></li>
+              <li><a href="{{url('admin/accesos')}}"><i class="fa fa-key"></i> Accesos</a></li>
             </ul>
           </li>
           <li><a href="productos.php"><i class="fa fa-cubes"></i> Productos</a></li>

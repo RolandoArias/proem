@@ -15,13 +15,8 @@
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-3">
             <label>Tipo de Acceso</label>
-            <select class="form-control" name="admin">
-              <option value="1" @if($user->admin==1 or old('email')==1) selected @endif>Administrador</option>
-              <option value="2" @if($user->admin==2 or old('email')==2) selected @endif>Ventas</option>
-              <option value="3" @if($user->admin==3 or old('email')==3) selected @endif>Compras</option>
-              <option value="4" @if($user->admin==4 or old('email')==4) selected @endif>Staff</option>
-              <option value="5" @if($user->admin==5 or old('email')==5) selected @endif>Servicio</option> <!-- sólo tiene acceso a tab de control de entrada y tab bitácora -->
-            </select>
+            {{Form::select('admin', $type, $user->role(), ['class'=>'form-control'])}}
+
           </div>
         
           <div class="col-xs-12 col-sm-12 col-md-3">

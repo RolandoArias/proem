@@ -48,7 +48,8 @@ class AccesosController extends Controller
      */
     public function create()
     {
-       return view('admin.pages.accesos.new');
+        $type = ['ventas' =>'Ventas', 'compras' =>'Compras', 'staff' =>'Staff', 'servicio' =>'Servicio', 'administrator' =>'Administrador'];
+        return view('admin.pages.accesos.new')->with(['users'=>$users]);
     }
 
     /**
@@ -61,6 +62,7 @@ class AccesosController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
+            'admin' => 'required|min:1|max:50',
             'email' => 'required|unique:users|max:255',
             'name' => 'required|min:1|max:50',
             'last_name' => 'required',
@@ -111,16 +113,6 @@ class AccesosController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -132,7 +124,8 @@ class AccesosController extends Controller
     {
         $user = User::find($id);
         if($user){
-            return view('admin.pages.accesos.edit')->with(['user'=>$user]);
+            $type = ['ventas' =>'Ventas', 'compras' =>'Compras', 'staff' =>'Staff', 'servicio' =>'Servicio', 'administrator' =>'Administrador'];
+            return view('admin.pages.accesos.edit')->with(['user'=>$user, 'type'=>$type]);
         }
         return var_dump('404');
     }
@@ -147,6 +140,7 @@ class AccesosController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
+            'admin' => 'required|min:1|max:50',
             'email' => 'required|email|unique:users,email,'.$id,
             'name' => 'required|min:1|max:50',
             'last_name' => 'required',
@@ -184,6 +178,14 @@ class AccesosController extends Controller
         }
 
         if($user->save()){
+            if($request->admin != $user->role()){
+                $userRol = Role::whereName($user->role())->first();
+                $user->removeRole($userRol);
+
+                $userRole = Role::whereName($request->admin)->first();
+                $user->assignRole($userRole);
+            }
+            
             if($request->file('picture')!=NULL)
             {
                 $file_picture->move("asset/images/",$picture); 
