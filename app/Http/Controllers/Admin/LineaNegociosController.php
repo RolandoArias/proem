@@ -39,7 +39,7 @@ class LineaNegociosController extends Controller
             $lineas = $lineas->paginate(100);
         }
 
-        return view('admin.pages.linea-negocios.index')->with(['lineas'=>$lineas]);
+        return view('admin.pages.linea-negocios.index')->with('lineas',$lineas)->withInput($request);
 
     }
     

@@ -22,16 +22,16 @@
         <div class="col-md-3">
             <label>Ordenar</label>
             <select class="form-control" name="order">
-              <option value="asc" @if(old('order')=="asc") selected @endif>Ascendente</option>
-              <option value="desc" @if(old('order')=="desc") selected @endif>Descendente</option>
-              <option value="new" @if(old('order')=="new") selected @endif>Más reciente</option>
-              <option value="old" @if(old('order')=="old") selected @endif>Más antigua</option>
+              <option value="asc" @if($input->order=="asc") selected @endif>Ascendente</option>
+              <option value="desc" @if($input->order=="desc") selected @endif>Descendente</option>
+              <option value="new" @if($input->order=="new") selected @endif>Más reciente</option>
+              <option value="old" @if($input->order=="old") selected @endif>Más antigua</option>
             </select>
         </div>
 
         <div class="col-md-3">
           <div class="input-group buscador_margin">
-            <input type="text" class="form-control" placeholder="Buscar..." name="buscar" value="{{old('buscar')}}">
+            <input type="text" class="form-control" placeholder="Buscar..." name="buscar" value="{{$input->buscar}}">
             <span class="input-group-btn">
               <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
             </span>
@@ -58,16 +58,16 @@
             <div class="form-group">
               <label class="control-label col-md-6 text-right">Mostrar </label>
               <div class="col-md-6">
-                <select class="form-control" name="numb">
-                  <option value="100">100</option>
-                  <option value="50">50</option>
-                  <option value="10">10</option>
+                <select class="form-control" name="numb" onChange="this.form.submit()">
+                  <option @if($input->numb=="100") selected @endif value="100">100</option>
+                  <option @if($input->numb=="50") selected @endif value="50">50</option>
+                  <option @if($input->numb=="10") selected @endif value="10">10</option>
                 </select>
               </div>
             </div>
           </div>
         </div> <!-- FIN ROW-->
-        
+        </form>
         <table class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
           <thead>
             <tr>
@@ -101,7 +101,6 @@
       {{ $lineas->links() }} 
 
 </div> 
-</form>
 </div>
 @endsection
 @section('script')
