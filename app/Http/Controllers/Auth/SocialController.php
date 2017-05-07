@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
-use App\Http\Controllers\Controller;
+//use App\Http\Controllers\Controller;
 #use App\Traits\ActivationTrait;
 use App\Models\Front\Social;
 use App\Models\User;
@@ -97,10 +97,7 @@ class SocialController extends Controller
                 $newSocialUser->picture=$user->avatar;
                 $newSocialUser->password = bcrypt(str_random(16));
                 $newSocialUser->token = str_random(64);
-                $newSocialUser->gender ="gender";
                 $newSocialUser->telephone = '';
-                $newSocialUser->municipio = '';
-                $newSocialUser->estado = '';
                 $newSocialUser->activated = true; //!config('settings.activation');
                 $newSocialUser->save();
 
