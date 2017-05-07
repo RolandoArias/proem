@@ -1,79 +1,31 @@
 @extends('admin.layouts.master')
 
-@section('title', 'Líneas de Negocio')
+@section('title', 'Tipo de Producto')
 
 
 @section('content')
 <div class="row">
   <div class="col-md-12 col-sm-12 col-xs-12">
-    <h1>Editando línea de negocio</h1>
+    <h1>Editando tipo de producto</h1>
   </div>
 </div>
 
-{{Form::model($linea, ['route' => ['linea-negocios.update', $linea->id],'files' => true])}}
+{{Form::model($tipo, ['route' => ['tipos-productos.update', $tipo->id],'files' => true])}}
+  <input type="hidden" name="_method" value="PUT">
   <div class="row bg_blanco">
-        <input type="hidden" name="_method" value="PUT">
-        <div class="col-xs-12 col-sm-12 col-md-3">
-          <label for="">Tipo</label>
-          <ul class="lista_radio_inline">
-            <li><label class="radio-inline"><input type="radio" value="mx" name="tipo" @if($linea->tipo=="mx") checked @endif>MX</label></li>
-            <li><label class="radio-inline"><input type="radio" value="unidades" name="tipo" @if($linea->tipo=="unidades") checked @endif>Unidades</label></li>
-          </ul>
-          @if ($errors->has('tipo'))
-              <span class="help-block">
-                  <strong>{{ $errors->first('tipo') }}</strong>
-              </span>
-          @endif
-        </div>
-      
-        <div class="col-xs-12 col-sm-12 col-md-6">
-          <label for="">Nombre </label>{{Form::text('nombre', NULL, ['class'=>'form-control'])}}
-          @if ($errors->has('nombre'))
-              <span class="help-block">
-                  <strong>{{ $errors->first('nombre') }}</strong>
-              </span>
-          @endif
-        </div>
-
-        <div class="col-xs-12 col-sm-12 col-md-3">
-          <label for="">Siglas </label>{{Form::text('siglas', NULL, ['class'=>'form-control'])}}
-          @if ($errors->has('siglas'))
-              <span class="help-block">
-                  <strong>{{ $errors->first('siglas') }}</strong>
-              </span>
-          @endif
-        </div>
-
-        <div class="col-xs-12 col-sm-12 col-md-12">
-          <label for="">Descripción (SEO) </label>{{Form::textarea('descripcion', NULL, ['class'=>'form-control','rows'=>'3'])}}
-          @if ($errors->has('decripcion'))
-              <span class="help-block">
-                  <strong>{{ $errors->first('decripcion') }}</strong>
-              </span>
-          @endif
-        </div>
-
-        <div class="col-md-12">
-          <label for="">Imagen</label>
-          <span><br>Tamaño recomendado: ancho 2000px y alto 1333px.</span>
-          <span><br>Peso sugerido: 350Kb</span>
-          <input type="file" name="picture">
-          @if ($errors->has('picture'))
-              <span class="help-block">
-                  <strong>{{ $errors->first('picture') }}</strong>
-              </span>
-          @endif
-          <br>
-          <img src="{{asset($linea->picture)}}" alt="" class="img-circle img-thumbnail" width="120">
-        </div>
-
-
-        <div class="col-xs-12 col-sm-12 col-md-12">
-          <button type="submit" class="btn btn-success btn-lg"><i class="fa fa-floppy-o"></i> Guardar</button>    
-        </div>
-
-
-    
+    <div class="col-xs-12 col-sm-12 col-md-3">
+      <label>Línea de Negocio</label>
+      {{Form::select('linea_negocio_id', $lineas, NULL, ['class'=>'form-control'])}}
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6">
+      <label for="">Nombre </label>{{Form::text('nombre', NULL, ['class'=>'form-control'])}} <!-- VALIDAR que no se repitan los nombres en una misma línea de negocio. EJ: La línea de negocio Cosben, no puede tener dos tipos de producto con el mismo nombre, ejemplo Brazo, no puede tener dos tipo de producto "Brazo" a menos de que se haya escrito "Braso"-->
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12">
+      <label for="">Descripción (SEO) </label>{{Form::textarea('descripcion', NULL, ['class'=>'form-control','rows'=>'3'])}}
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12">
+      <button type="submit" class="btn btn-success btn-lg"><i class="fa fa-floppy-o"></i> Guardar</button>    
+    </div>
   </div> <!-- FIN ROW -->
 {{Form::close()}}
 @endsection

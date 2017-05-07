@@ -28,5 +28,7 @@ Route::group(['middleware' => ['auth'],'prefix' => 'admin'], function () {
     Route::resource('accesos', '\App\Http\Controllers\Admin\AccesosController');
     Route::resource('linea-negocios', '\App\Http\Controllers\Admin\LineaNegociosController');
     Route::resource('tipos-productos', '\App\Http\Controllers\Admin\TiposProductosController');
+    Route::resource('marcas', '\App\Http\Controllers\Admin\MarcasController');
+    Route::resource('modelos', '\App\Http\Controllers\Admin\ModelosController');
 });
 

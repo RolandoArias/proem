@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 
-@section('title', 'Tipo de Producto')
+@section('title', 'Modelos')
 
 
 @section('content')
@@ -8,8 +8,8 @@
   
   <div class="row">
     <div class="col-md-6">
-      <h1><i class="fa fa-cubes"></i> Tipo de Producto</h1>
-      <a href="{{url('admin/tipos-productos/create')}}" class="btn btn-round btn-success btn-md"><i class="fa fa-plus"></i> Agregar</a>
+      <h1><i class="fa fa-tag"></i> Modelos</h1>
+      <a href="{{url('admin/modelos/create')}}" class="btn btn-round btn-success btn-md"><i class="fa fa-plus"></i> Agregar</a>
       <a class="btn btn-round btn-primary btn-md" role="button" data-toggle="collapse" href="#herramientas" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-filter"></i> <i class="fa fa-search"></i></a>
     </div>
   </div><!-- FIN ROW -->
@@ -18,7 +18,14 @@
     <div class="well" style="overflow: auto">
       
       <div class="row">
-        
+        <div class="col-md-3">
+            <label>Filtrar</label>
+            <select class="form-control">
+              <option>Todos</option>
+              <option>Modelo</option>
+              <option>Tipo de producto</option>
+            </select>
+        </div>
         <div class="col-md-3">
             <label>Ordenar</label>
             <select class="form-control" name="order">
@@ -49,7 +56,7 @@
         
         <div class="row">
           <div class="col-md-6 col-sm-6 col-xs-12">
-            <h2>LISTA DE TIPOS DE PRODUCTO</h2>
+            <h2>LISTA DE MODELOS</h2>
           </div>
           <div class="col-md-3 col-sm-4 col-xs-12">
             <a href="" class="btn btn-info btn-sm btn_margin"><i class="fa fa-cloud-download"></i> Descargar PDF</a>
@@ -72,21 +79,21 @@
           <thead>
             <tr>
               <th>Fecha</th>
+              <th>Modelo</th>
               <th>Tipo de Producto</th>
-              <th>Línea de Negocio</th>
               <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
-            @foreach($tipos as $tipo)
+            @foreach($modelos as $modelo)
             <tr>
-              <td>{{Carbon\Carbon::parse($tipo->created_at)->format('d-M-Y')}}</td>
-              <td>{{$tipo->nombre}}</td>
-              <td>{{$tipo->linea()}}</td>
+              <td>{{Carbon\Carbon::parse($modelo->created_at)->format('d-M-Y')}}</td>
+              <td>{{$modelo->nombre}}</td>
+              <td>{{$modelo->tipo()}}</td>
               <td>
-              <a href="{{url('admin/tipos-productos/'.$tipo->id.'/edit')}}" class="btn btn-warning btn-xs" alt="Editar"><i class="fa fa-pencil"></i></a>
-              <a href="{{ route('tipos-productos.destroy',$tipo->id) }}" onclick="event.preventDefault(); document.getElementById('del-form').submit();" class="btn btn-danger btn-xs" alt="Eliminar"><i class="fa fa-remove"></i></a>
-              <form id="del-form" action="{{ route('tipos-productos.destroy',$tipo->id) }}" method="POST" style="display: none;">
+              <a href="{{url('admin/modelos/'.$modelo->id.'/edit')}}" class="btn btn-warning btn-xs" alt="Editar"><i class="fa fa-pencil"></i></a>
+              <a href="{{ route('modelos.destroy',$modelo->id) }}" onclick="event.preventDefault(); document.getElementById('del-form').submit();" class="btn btn-danger btn-xs" alt="Eliminar"><i class="fa fa-remove"></i></a>
+              <form id="del-form" action="{{ route('modelos.destroy',$modelo->id) }}" method="POST" style="display: none;">
                 {{ csrf_field() }}
                 {{ method_field('DELETE') }}
               </form>
@@ -96,7 +103,7 @@
         </table>
 
       </div>
-      {{ $tipos->links() }} 
+      {{ $modelos->links() }} 
 
 </div> 
 </form>

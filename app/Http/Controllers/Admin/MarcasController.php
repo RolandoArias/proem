@@ -6,12 +6,12 @@ use DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
+use App\Models\Admin\Marca;
 use App\Models\Admin\TipoProducto;
-use App\Models\Admin\LineaNegocio;
 use Form;
 use Auth;
 
-class TiposProductosController extends Controller
+class MarcasController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,26 +21,26 @@ class TiposProductosController extends Controller
     public function index(Request $request)
     {  
         if($request->buscar!=""){
-            $tipos = TipoProducto::where('nombre','like','%'.$request->buscar.'%');
+            $marcas = Marca::where('nombre','like','%'.$request->buscar.'%');
         }else{
-            $tipos = new TipoProducto;
+            $marcas = new Marca;
         }
         if($request->order=="asc" or $request->order=="desc"){
-            $tipos = $tipos->orderBy('nombre',$request->order);
+            $marcas = $marcas->orderBy('nombre',$request->order);
         }
         if($request->order=="new"){
-            $tipos = $tipos->orderBy('created_at', 'DESC');
+            $marcas = $marcas->orderBy('created_at', 'DESC');
         }
         if($request->order=="old"){
-            $tipos = $tipos->orderBy('created_at', 'ASC');
+            $marcas = $marcas->orderBy('created_at', 'ASC');
         }
          if($request->numb!=""){
-            $tipos = $tipos->paginate($request->numb);
+            $marcas = $marcas->paginate($request->numb);
         }else{
-            $tipos = $tipos->paginate(100);
+            $marcas = $marcas->paginate(100);
         }
 
-        return view('admin.pages.tipos-productos.index')->with(['tipos'=>$tipos]);
+        return view('admin.pages.marcas.index')->with(['marcas'=>$marcas]);
 
     }
     
@@ -52,8 +52,8 @@ class TiposProductosController extends Controller
      */
     public function create()
     {
-        $lineas = LineaNegocio::pluck('nombre', 'id')->toArray();
-        return view('admin.pages.tipos-productos.new')->with(['lineas'=>$lineas]);
+        $tipos = TipoProducto::pluck('nombre', 'id')->toArray();
+        return view('admin.pages.marcas.new')->with(['tipos'=>$tipos]);
     }
 
     /**
@@ -66,9 +66,8 @@ class TiposProductosController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'linea_negocio_id' => 'required|min:1|max:12',
-            'nombre' => 'required|min:1|max:200',
-            'descripcion' => 'min:1|max:500'
+            'tipo_producto_id' => 'required|min:1|max:12',
+            'nombre' => 'required|min:1|max:200'
         ]);
 
         if ($validator->fails()) {
@@ -77,14 +76,13 @@ class TiposProductosController extends Controller
                         ->withInput();
         }
 
-        $linea = new TipoProducto;
-        $linea->linea_negocio_id = $request->linea_negocio_id;
-        $linea->nombre = $request->nombre;
-        $linea->descripcion = $request->descripcion;
+        $marcas = new Marca;
+        $marcas->tipo_producto_id = $request->tipo_producto_id;
+        $marcas->nombre = $request->nombre;
 
-        if($linea->save()){
+        if($marcas->save()){
 
-            return redirect('/admin/tipos-productos');
+            return redirect('/admin/marcas');
         }
 
     }
@@ -98,10 +96,10 @@ class TiposProductosController extends Controller
      */
     public function edit($id)
     {
-        $tipo = TipoProducto::find($id);
-        if($tipo){
-            $lineas = LineaNegocio::pluck('nombre', 'id')->toArray();
-            return view('admin.pages.tipos-productos.edit')->with(['tipo'=>$tipo,'lineas'=>$lineas]);
+        $marca = Marca::find($id);
+        if($marca){
+            $tipos = TipoProducto::pluck('nombre', 'id')->toArray();
+            return view('admin.pages.marcas.edit')->with(['marca'=>$marca,'tipos'=>$tipos]);
         }
         return var_dump('404');
     }
@@ -116,9 +114,8 @@ class TiposProductosController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'linea_negocio_id' => 'required|min:1|max:12',
-            'nombre' => 'required|min:1|max:200',
-            'descripcion' => 'min:1|max:500',
+            'tipo_producto_id' => 'required|min:1|max:12',
+            'nombre' => 'required|min:1|max:200'
         ]);
 
         if ($validator->fails()) {
@@ -127,19 +124,17 @@ class TiposProductosController extends Controller
                         ->withInput();
         }
 
-        $tipo = TipoProducto::find($id);
-        if(!$tipo){
+        $marca = Marca::find($id);
+        if(!$marca){
             return var_dump('404');
         }
 
-        $tipo = TipoProducto::find($id);
-        $tipo->linea_negocio_id = $request->linea_negocio_id;
-        $tipo->nombre = $request->nombre;
-        $tipo->descripcion = $request->descripcion;
+        $marca->tipo_producto_id = $request->tipo_producto_id;
+        $marca->nombre = $request->nombre;
 
-        if($tipo->save()){
+        if($marca->save()){
 
-            return redirect('/admin/tipos-productos');
+            return redirect('/admin/marcas');
         }
 
         return var_dump('404');
@@ -154,9 +149,9 @@ class TiposProductosController extends Controller
     public function destroy($id)
     {
 
-        $tipo = TipoProducto::find($id);
+        $tipo = Marca::find($id);
         $tipo->delete();
-            return redirect('/admin/tipos-productos');
+            return redirect('/admin/marcas');
          
  
     }
