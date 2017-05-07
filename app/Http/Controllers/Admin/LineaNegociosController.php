@@ -6,40 +6,43 @@ use DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
-use App\Models\User;
-use App\Models\Role;
+use App\Models\Admin\LineaNegocio;
 use Form;
 use Auth;
 
-class AccesosController extends Controller
+class LineaNegociosController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //$users = User::where('admin', '>', 0)->paginate(10);
-        $users = DB::table('users')
-                ->join('role_user', 'role_user.user_id', '=', 'users.id')     
-                ->join('roles', 'role_user.role_id', '=', 'roles.id')
-                ->where('roles.name','<>','user') 
-                ->where('users.id','<>',Auth::user()->id) 
-                ->select(
-                    'users.id as id',
-                    'users.name as name',
-                    'users.last_name as last_name',
-                    'users.parental_name as parental_name',
-                    'users.email as email',                   
-                    'roles.name as role',                   
-                    'users.picture as picture',                   
-                    'users.created_at as created_at'
-                )
-                ->paginate(10);   
-     
-        return view('admin.pages.accesos.index')->with(['users'=>$users]);
+    public function index(Request $request)
+    {  
+        if($request->buscar!=""){
+            $lineas = LineaNegocio::where('nombre','like','%'.$request->buscar.'%');
+        }else{
+            $lineas = new LineaNegocio;
+        }
+        if($request->order=="asc" or $request->order=="desc"){
+            $lineas = $lineas->orderBy('nombre',$request->order);
+        }
+        if($request->order=="new"){
+            $lineas = $lineas->orderBy('created_at', 'DESC');
+        }
+        if($request->order=="old"){
+            $lineas = $lineas->orderBy('created_at', 'ASC');
+        }
+         if($request->numb!=""){
+            $lineas = $lineas->paginate($request->numb);
+        }else{
+            $lineas = $lineas->paginate(100);
+        }
+
+        return view('admin.pages.linea-negocios.index')->with(['lineas'=>$lineas]);
+
     }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -48,7 +51,8 @@ class AccesosController extends Controller
      */
     public function create()
     {
-        return view('admin.pages.accesos.new');
+
+        return view('admin.pages.linea-negocios.new');
     }
 
     /**
@@ -61,11 +65,10 @@ class AccesosController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'admin' => 'required|min:1|max:50',
-            'email' => 'required|unique:users|max:255',
-            'name' => 'required|min:1|max:50',
-            'last_name' => 'required',
-            'parental_name' => 'min:1|max:50',
+            'tipo' => 'required|min:1|max:12',
+            'nombre' => 'required|min:1|max:200',
+            'siglas' => 'required|min:1|max:50',
+            'descripcion' => 'required',
             'picture' => 'mimes:jpeg,jpg,png,gif'
         ]);
 
@@ -75,13 +78,11 @@ class AccesosController extends Controller
                         ->withInput();
         }
 
-        $user = new User;
-        $user->email = $request->email;
-        $user->name = $request->name;
-        $user->last_name = $request->last_name;
-        $user->parental_name = $request->parental_name;
-        $user->picture = $request->picture;
-
+        $linea = new LineaNegocio;
+        $linea->tipo = $request->tipo;
+        $linea->nombre = $request->nombre;
+        $linea->siglas = $request->siglas;
+        $linea->descripcion = $request->descripcion;
         
         if($request->file('picture')!=NULL)
         {
@@ -89,25 +90,22 @@ class AccesosController extends Controller
             $file_picture=$request->file('picture');
             $ext = $request->file('picture')->getClientOriginalExtension();
             $nameIMG=date('YmdHis');
-            $picture= $user->id.$nameIMG.'.'.$ext;
+            $picture= $linea->id.$nameIMG.'.'.$ext;
             $picname = $picture;
             $picture= url('asset/images').'/PIC'.$picture;
-            $user->picture = $picture;
+            $linea->picture = $picture;
         }else{
-            $user->picture = url('asset/images').'/img.jpg';
+            $linea->picture = url('asset/images/img.jpg');
         }
 
-        if($user->save()){
-            
-            $userRole = Role::whereName($request->admin)->first();
-            $user->assignRole($userRole);
+        if($linea->save()){
             
             if($request->file('picture')!=NULL)
             {
                 $file_picture->move("asset/images/",$picture); 
             }
 
-            return redirect('/admin/accesos');
+            return redirect('/admin/linea-negocios');
         }
 
     }
@@ -121,10 +119,10 @@ class AccesosController extends Controller
      */
     public function edit($id)
     {
-        $user = User::find($id);
-        if($user){
+        $linea = LineaNegocio::find($id);
+        if($linea){
             $type = ['ventas' =>'Ventas', 'compras' =>'Compras', 'staff' =>'Staff', 'servicio' =>'Servicio', 'administrator' =>'Administrador'];
-            return view('admin.pages.accesos.edit')->with(['user'=>$user, 'type'=>$type]);
+            return view('admin.pages.linea-negocios.edit')->with(['linea'=>$linea, 'type'=>$type]);
         }
         return var_dump('404');
     }
@@ -139,11 +137,10 @@ class AccesosController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'admin' => 'required|min:1|max:50',
-            'email' => 'required|email|unique:users,email,'.$id,
-            'name' => 'required|min:1|max:50',
-            'last_name' => 'required',
-            'parental_name' => 'min:1|max:50',
+            'tipo' => 'required|min:1|max:12',
+            'nombre' => 'required|min:1|max:200',
+            'siglas' => 'required|min:1|max:50',
+            'descripcion' => 'required',
             'picture' => 'mimes:jpeg,jpg,png,gif'
         ]);
 
@@ -153,15 +150,16 @@ class AccesosController extends Controller
                         ->withInput();
         }
 
-        $user = User::find($id);
-        if(!$user){
+        $linea = LineaNegocio::find($id);
+        if(!$linea){
             return var_dump('404');
         }
 
-        $user->email = $request->email;
-        $user->name = $request->name;
-        $user->last_name = $request->last_name;
-        $user->parental_name = $request->parental_name;
+        $linea = LineaNegocio::find($id);
+        $linea->tipo = $request->tipo;
+        $linea->nombre = $request->nombre;
+        $linea->siglas = $request->siglas;
+        $linea->descripcion = $request->descripcion;
 
         if($request->file('picture')!=NULL)
         {
@@ -169,27 +167,19 @@ class AccesosController extends Controller
             $file_picture=$request->file('picture');
             $ext = $request->file('picture')->getClientOriginalExtension();
             $nameIMG=date('YmdHis');
-            $picture= $user->id.$nameIMG.'.'.$ext;
+            $picture= $linea->id.$nameIMG.'.'.$ext;
             $picname = $picture;
             $picture= url('asset/images').'/PIC'.$picture;
-            $user->picture = $picture;
+            $linea->picture = $picture;
 
         }
 
-        if($user->save()){
-            if($request->admin != $user->role()){
-                $userRol = Role::whereName($user->role())->first();
-                $user->removeRole($userRol);
-
-                $userRole = Role::whereName($request->admin)->first();
-                $user->assignRole($userRole);
-            }
-            
+        if($linea->save()){
             if($request->file('picture')!=NULL)
             {
                 $file_picture->move("asset/images/",$picture); 
             }
-            return redirect('/admin/accesos');
+            return redirect('/admin/linea-negocios');
         }
 
         return var_dump('404');
@@ -204,9 +194,9 @@ class AccesosController extends Controller
     public function destroy($id)
     {
 
-        $user = User::find($id);
-        $user->delete();
-            return redirect('/admin/accesos');
+        $linea = LineaNegocio::find($id);
+        $linea->delete();
+            return redirect('/admin/linea-negocios');
          
  
     }

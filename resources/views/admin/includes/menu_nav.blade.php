@@ -30,10 +30,10 @@
           <li><a href="noticias.php"><i class="fa fa-newspaper-o"></i> Noticias</a></li>
           <li><a><i class="fa fa-list-ul"></i> Catálogos <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
-              <li><a href="cat-linea-negocio.php"><i class="fa fa-cube"></i> Línea de negocio</a></li>
-              <li><a href="cat-tipo-producto.php"><i class="fa fa-cubes"></i> Tipo de producto</a></li>
-              <li><a href="cat-marcas.php"><i class="fa fa-trademark"></i> Marcas</a></li>
-              <li><a href="cat-modelos.php"><i class="fa fa-tag"></i> Modelos</a></li>
+              <li><a href="{{url('admin/linea-negocios')}}"><i class="fa fa-cube"></i> Línea de negocio</a></li>
+              <li><a href="{{url('admin/tipos-productos')}}"><i class="fa fa-cubes"></i> Tipo de producto</a></li>
+              <li><a href="{{url('admin/marcas')}}"><i class="fa fa-trademark"></i> Marcas</a></li>
+              <li><a href="{{url('admin/modelos')}}"><i class="fa fa-tag"></i> Modelos</a></li>
               <li><a href="{{url('admin/accesos')}}"><i class="fa fa-key"></i> Accesos</a></li>
             </ul>
           </li>
