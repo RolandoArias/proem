@@ -18,7 +18,14 @@
     <div class="well" style="overflow: auto">
       
       <div class="row">
-        
+        <div class="col-md-3">
+            <label>Filtrar</label>
+            <select class="form-control" name="filtro">
+              <option>Todos</option>
+              <option>Tipo de producto</option>
+              <option>Línea de negocio</option>
+            </select>
+        </div>
         <div class="col-md-3">
             <label>Ordenar</label>
             <select class="form-control" name="order">
