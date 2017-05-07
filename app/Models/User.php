@@ -97,4 +97,18 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         
     }
 
+    public function tipo()
+    {
+        if($this->tipo = "facebook"){
+            return "fa fa-facebook";
+        } else if($this->tipo = "twitter"){
+            return "fa fa-twitter";
+        } else if($this->tipo = "email"){
+            return "fa fa-envelope";
+        } else if($this->tipo = "banco"){
+            return "fa fa-database";
+        }
+    }
+
+
 }

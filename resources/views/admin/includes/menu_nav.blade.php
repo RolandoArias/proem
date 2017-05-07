@@ -38,7 +38,7 @@
             </ul>
           </li>
           <li><a href="productos.php"><i class="fa fa-cubes"></i> Productos</a></li>
-          <li><a href="clientes.php"><i class="fa fa-users"></i> Clientes</a></li>
+          <li><a href="{{url('admin/clientes')}}"><i class="fa fa-users"></i> Clientes</a></li>
           <li><a href="reportes.php"><i class="fa fa-file-text-o"></i> Reporte Ventas</a></li>
           <li>
             <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
