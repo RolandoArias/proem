@@ -15,7 +15,11 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             
-            $table->increments('id');            
+            $table->increments('id');   
+            $table->integer('linea_negocio')->nullable();
+            $table->integer('vendedor')->nullable();
+            $table->integer('area_interes')->nullable();
+            $table->string('tipo_user')->nullable();
             $table->string('name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('parental_name')->nullable();
@@ -24,25 +28,11 @@ class CreateUsersTable extends Migration
             $table->boolean('activated')->default(false);
             $table->string('picture')->nullable();
             $table->string('token')->nullable();
-            $table->integer('linea_negocio')->nullable();
-            $table->integer('area_interes')->nullable();
             $table->string('website')->nullable();
-            $table->integer('vendedor')->nullable();
             $table->text('comentarios')->nullable();
-            $table->string('razon_social')->nullable();
-            $table->string('rfc')->nullable();
-            $table->string('calle')->nullable();
-            $table->string('n_ext')->nullable();
-            $table->string('n_int')->nullable();
-            $table->string('colonia')->nullable();
-            $table->string('cp')->nullable();
-            $table->string('municipio')->nullable();
-            $table->string('estado')->nullable();
-            $table->string('pais')->nullable();
             $table->string('genero')->nullable();
             $table->string('telephone')->nullable();
             $table->rememberToken();
-
             $table->timestamps();
         });
     }

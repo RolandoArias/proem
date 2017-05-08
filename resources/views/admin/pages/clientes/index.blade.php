@@ -16,28 +16,7 @@
 <form method="GET">
   <div class="collapse" id="herramientas">
     <div class="well" style="overflow: auto">
-      
-      <div class="row">
-        <div class="col-md-3">
-            <label>Ordenar</label>
-            <select class="form-control" name="order">
-              <option value="asc" @if(old('order')=="asc") selected @endif>Ascendente</option>
-              <option value="desc" @if(old('order')=="desc") selected @endif>Descendente</option>
-              <option value="new" @if(old('order')=="new") selected @endif>Más reciente</option>
-              <option value="old" @if(old('order')=="old") selected @endif>Más antigua</option>
-            </select>
-        </div>
-
-        <div class="col-md-3">
-          <div class="input-group buscador_margin">
-            <input type="text" class="form-control" placeholder="Buscar..." name="buscar" value="{{old('buscar')}}">
-            <span class="input-group-btn">
-              <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
-            </span>
-          </div>
-        </div>
-        
-      </div> <!-- FIN ROW -->
+ 
       <div class="row">
         
         <div class="col-md-3">
@@ -72,20 +51,20 @@
         </div>
 
         <div class="col-md-3">
-            <label>Ordenar</label>
-            <select class="form-control">
-              <option>Ascendente</option>
-              <option>Descendente</option>
-              <option>Más reciente</option>
-              <option>Más antigua</option>
+           <label>Ordenar</label>
+            <select class="form-control" name="order">
+              <option value="asc" @if(old('order')=="asc") selected @endif>Ascendente</option>
+              <option value="desc" @if(old('order')=="desc") selected @endif>Descendente</option>
+              <option value="new" @if(old('order')=="new") selected @endif>Más reciente</option>
+              <option value="old" @if(old('order')=="old") selected @endif>Más antigua</option>
             </select>
         </div>
 
         <div class="col-md-3">
           <div class="input-group buscador_margin">
-            <input type="text" class="form-control" placeholder="Buscar...">
+            <input type="text" class="form-control" placeholder="Buscar..." name="buscar" value="{{old('buscar')}}">
             <span class="input-group-btn">
-              <button class="btn btn-primary" type="button"><i class="fa fa-search"></i></button>
+              <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
             </span>
           </div>
         </div>
@@ -136,7 +115,7 @@
               <td><img src="{{asset($cliente->picture)}}" width="80" alt=""></td>
               <td>{{$cliente->name ." ".$cliente->last_name}}</td>
               <td>{{$cliente->email}}</td>
-              <td><i class="{{$cliente->tipo()}}"></i></td>
+              <td><i class="fa @if($cliente->tipo_user!='email') fa-{{$cliente->tipo_user}} @else fa-envelope @endif"></i></td>
               <td>
               <a href="{{url('admin/clientes/'.$cliente->id.'/edit')}}" class="btn btn-warning btn-xs" alt="Editar"><i class="fa fa-pencil"></i></a>
               <a href="{{ route('clientes.destroy',$cliente->id) }}" onclick="event.preventDefault(); document.getElementById('del-form').submit();" class="btn btn-danger btn-xs" alt="Eliminar"><i class="fa fa-remove"></i></a>

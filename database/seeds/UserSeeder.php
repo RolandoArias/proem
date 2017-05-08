@@ -10,7 +10,7 @@ class UserSeeder extends Seeder{
         DB::table('users')->delete();
 
         $adminRole = Role::whereName('administrator')->first();
-        $userRole = Role::whereName('user')->first();
+        $userCliente = Role::whereName('cliente')->first();
 
         $user = User::create(array(
             'name'    => 'John',
@@ -19,7 +19,8 @@ class UserSeeder extends Seeder{
             'picture'         => '/assets/images/avatar.png',
             'password'      => Hash::make('admin123'),
             'token'         => str_random(64),
-            'activated'     => true
+            'activated'     => true,
+            'tipo_user'     => 'email'
         ));
         $user->assignRole($adminRole);
 
@@ -30,9 +31,11 @@ class UserSeeder extends Seeder{
             'password'      => Hash::make('u123'),
             'picture'         => '/assets/images/avatar.png',            
             'token'         => str_random(64),
-            'activated'     => true
+            'activated'     => true,
+            'tipo_user'     => 'email'
+
         ));
-        $user->assignRole($userRole);
+        $user->assignRole($userCliente);
 
         $user1 = User::create(array(
             'name'    => 'Jane',
@@ -41,8 +44,10 @@ class UserSeeder extends Seeder{
             'password'      => Hash::make('u123'),
             'picture'         => '/assets/images/avatar.png',            
             'token'         => str_random(64),
-            'activated'     => true
+            'activated'     => true,
+            'tipo_user'     => 'facebook'
+
         ));
-        $user1->assignRole($userRole);
+        $user1->assignRole($userCliente);
     }
 }

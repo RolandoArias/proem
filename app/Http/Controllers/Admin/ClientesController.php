@@ -20,10 +20,14 @@ class ClientesController extends Controller
      */
     public function index(Request $request)
     {  
+     
+
+         $users = User::byRole('cliente');
+         
         if($request->buscar!=""){
-            $lineas = User::where('name','like','%'.$request->buscar.'%');
+            $lineas =  $users->where('users.name','like','%'.$request->buscar.'%');
         }else{
-            $lineas = new User;
+            $lineas = $users;
         }
         if($request->order=="asc" or $request->order=="desc"){
             $lineas = $lineas->orderBy('name',$request->order);
@@ -41,7 +45,6 @@ class ClientesController extends Controller
         }
 
         return view('admin.pages.clientes.index')->with(['clientes'=>$lineas]);
-
     }
     
 
@@ -52,7 +55,7 @@ class ClientesController extends Controller
      */
     public function create()
     {
-
+         
         return view('admin.pages.clientes.new');
     }
 
@@ -66,11 +69,11 @@ class ClientesController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'tipo' => 'required|min:1|max:12',
-            'name' => 'required|min:1|max:200',
-            'siglas' => 'required|min:1|max:50',
-            'descripcion' => 'required',
-            'picture' => 'mimes:jpeg,jpg,png,gif'
+            'tipo'          => 'required|min:1|max:12',
+            'name'          => 'required|min:1|max:200',
+            'siglas'        => 'required|min:1|max:50',
+            'descripcion'   => 'required',
+            'picture'       => 'mimes:jpeg,jpg,png,gif'
         ]);
 
         if ($validator->fails()) {

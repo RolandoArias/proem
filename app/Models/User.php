@@ -29,18 +29,23 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * @var array
      */
     protected $guarded = ['id'];
+    
     //protected $dateFormat = 'U';
+    
     /**
      * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
+
     protected $hidden = ['password', 'remember_token'];
+
 
     public function roles()
     {
         return $this->belongsToMany('App\Models\Role')->withTimestamps();
     }
+
 
     public function role()
     {
@@ -49,6 +54,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             ->select('roles.name as role')->first();
         return $role->role;
     }
+
 
     public function hasRole($name)
     {
@@ -97,18 +103,39 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         
     }
 
-    public function tipo()
+    
+
+
+    public function datoFacturacion()
     {
-        if($this->tipo = "facebook"){
-            return "fa fa-facebook";
-        } else if($this->tipo = "twitter"){
-            return "fa fa-twitter";
-        } else if($this->tipo = "email"){
-            return "fa fa-envelope";
-        } else if($this->tipo = "banco"){
-            return "fa fa-database";
-        }
+         return $this->hasOne('App\Models\Admin\DatoFacturacion');
     }
 
 
+    public function datoEnvio()
+    {
+         return $this->hasOne('App\Models\Admin\DatoEnvio');
+    }
+    
+
+    public static function byRole($nameRol)
+    {
+         $roles = DB::table('users')->join('role_user', 'role_user.user_id', '=', 'users.id')->join('roles', 'role_user.role_id', '=', 'roles.id')
+            ->where('roles.name',$nameRol);
+            //->get();
+        return $roles;
+    }
+
+    public  function tipo()
+    {
+        if($this->tipo_user == "facebook"){
+            return "fa fa-facebook";
+        } else if($this->tipo_user == "twitter"){
+            return "fa fa-twitter";
+        } else if($this->tipo_user == "email"){
+            return "fa fa-envelope";
+        } else if($this->tipo_user == "banco"){
+            return "fa fa-database";
+        }
+    }
 }
