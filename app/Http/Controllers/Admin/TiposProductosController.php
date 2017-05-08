@@ -20,27 +20,52 @@ class TiposProductosController extends Controller
      */
     public function index(Request $request)
     {  
-        if($request->buscar!=""){
-            $tipos = TipoProducto::where('nombre','like','%'.$request->buscar.'%');
+        if($request->filtro=="tipo"){
+            if($request->buscar!=""){
+                $tipos = DB::table('tipos_productos')->join('linea_negocios', 'linea_negocios.id', '=', 'tipos_productos.linea_negocio_id')
+                ->where('tipos_productos.nombre','like','%'.$request->buscar.'%');
+            }else{
+                $tipos = DB::table('tipos_productos')->join('linea_negocios', 'linea_negocios.id', '=', 'tipos_productos.linea_negocio_id');
+            }
+        }elseif($request->filtro=="tipo"){
+            if($request->buscar!=""){
+                $tipos = DB::table('tipos_productos')->join('linea_negocios', 'linea_negocios.id', '=', 'tipos_productos.linea_negocio_id')
+                ->where('linea_negocios.nombre','like','%'.$request->buscar.'%');
+            }else{
+                $tipos = DB::table('tipos_productos')->join('linea_negocios', 'linea_negocios.id', '=', 'tipos_productos.linea_negocio_id');
+            }
         }else{
-            $tipos = new TipoProducto;
+            if($request->buscar!=""){
+                $tipos = DB::table('tipos_productos')->join('linea_negocios', 'linea_negocios.id', '=', 'tipos_productos.linea_negocio_id')
+                ->where('tipos_productos.nombre','like','%'.$request->buscar.'%')
+                ->orWhere('linea_negocios.nombre','like','%'.$request->buscar.'%');
+            }else{
+                $tipos = DB::table('tipos_productos')->join('linea_negocios', 'linea_negocios.id', '=', 'tipos_productos.linea_negocio_id');
+            }
         }
+        
+
         if($request->order=="asc" or $request->order=="desc"){
-            $tipos = $tipos->orderBy('nombre',$request->order);
+            $tipos = $tipos->orderBy('tipos_productos.nombre',$request->order);
         }
         if($request->order=="new"){
-            $tipos = $tipos->orderBy('created_at', 'DESC');
+            $tipos = $tipos->orderBy('tipos_productos.created_at', 'DESC');
         }
         if($request->order=="old"){
-            $tipos = $tipos->orderBy('created_at', 'ASC');
+            $tipos = $tipos->orderBy('tipos_productos.created_at', 'ASC');
         }
-         if($request->numb!=""){
+        $tipos = $tipos->groupBy('tipos_productos.id')
+                       ->select('tipos_productos.nombre as nombre',
+                                'linea_negocios.nombre as linea',
+                                'tipos_productos.created_at as created_at',
+                                'tipos_productos.id as id');
+        if($request->numb!=""){
             $tipos = $tipos->paginate($request->numb);
         }else{
             $tipos = $tipos->paginate(100);
         }
 
-        return view('admin.pages.tipos-productos.index')->with(['tipos'=>$tipos]);
+        return view('admin.pages.tipos-productos.index')->with(['tipos'=>$tipos, 'input'=>$request]);
 
     }
     

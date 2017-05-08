@@ -21,12 +21,7 @@
         
         <div class="col-md-3">
             <label>Ordenar</label>
-            <select class="form-control" name="order">
-              <option value="asc" @if($input->order=="asc") selected @endif>Ascendente</option>
-              <option value="desc" @if($input->order=="desc") selected @endif>Descendente</option>
-              <option value="new" @if($input->order=="new") selected @endif>Más reciente</option>
-              <option value="old" @if($input->order=="old") selected @endif>Más antigua</option>
-            </select>
+            {{Form::select('order', ['asc'=>'Ascendente','desc'=>'Descendente','new'=>'Más reciente','old'=>'Más antigua'], $input->order, ['class'=>'form-control'])}}
         </div>
 
         <div class="col-md-3">
@@ -58,11 +53,7 @@
             <div class="form-group">
               <label class="control-label col-md-6 text-right">Mostrar </label>
               <div class="col-md-6">
-                <select class="form-control" name="numb" onChange="this.form.submit()">
-                  <option @if($input->numb=="100") selected @endif value="100">100</option>
-                  <option @if($input->numb=="50") selected @endif value="50">50</option>
-                  <option @if($input->numb=="10") selected @endif value="10">10</option>
-                </select>
+                {{Form::select('numb', ['100'=>'100','50'=>'50','10'=>'10'], $input->numb, ['class'=>'form-control', 'onChange'=>'this.form.submit()'])}}
               </div>
             </div>
           </div>
