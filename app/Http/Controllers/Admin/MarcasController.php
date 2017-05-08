@@ -20,27 +20,52 @@ class MarcasController extends Controller
      */
     public function index(Request $request)
     {  
-        if($request->buscar!=""){
-            $marcas = Marca::where('nombre','like','%'.$request->buscar.'%');
+        if($request->filtro=="marcas"){
+            if($request->buscar!=""){
+                $marcas = DB::table('marcas')->join('tipos_productos', 'tipos_productos.id', '=', 'marcas.tipo_producto_id')
+                ->where('marcas.nombre','like','%'.$request->buscar.'%');
+            }else{
+                $marcas = DB::table('marcas')->join('tipos_productos', 'tipos_productos.id', '=', 'marcas.tipo_producto_id');
+            }
+        }elseif($request->filtro=="tipo"){
+            if($request->buscar!=""){
+                $marcas = DB::table('marcas')->join('tipos_productos', 'tipos_productos.id', '=', 'marcas.tipo_producto_id')
+                ->where('tipos_productos.nombre','like','%'.$request->buscar.'%');
+            }else{
+                $marcas = DB::table('marcas')->join('tipos_productos', 'tipos_productos.id', '=', 'marcas.tipo_producto_id');
+            }
         }else{
-            $marcas = new Marca;
+            if($request->buscar!=""){
+                $marcas = DB::table('marcas')->join('tipos_productos', 'tipos_productos.id', '=', 'marcas.tipo_producto_id')
+                ->where('marcas.nombre','like','%'.$request->buscar.'%')
+                ->orWhere('tipos_productos.nombre','like','%'.$request->buscar.'%');
+            }else{
+                $marcas = DB::table('marcas')->join('tipos_productos', 'tipos_productos.id', '=', 'marcas.tipo_producto_id');
+            }
         }
+        
+
         if($request->order=="asc" or $request->order=="desc"){
-            $marcas = $marcas->orderBy('nombre',$request->order);
+            $marcas = $marcas->orderBy('marcas.nombre',$request->order);
         }
         if($request->order=="new"){
-            $marcas = $marcas->orderBy('created_at', 'DESC');
+            $marcas = $marcas->orderBy('marcas.created_at', 'DESC');
         }
         if($request->order=="old"){
-            $marcas = $marcas->orderBy('created_at', 'ASC');
+            $marcas = $marcas->orderBy('marcas.created_at', 'ASC');
         }
+        $marcas = $marcas->groupBy('marcas.id')
+                       ->select('marcas.nombre as nombre',
+                                'tipos_productos.nombre as tipo',
+                                'marcas.created_at as created_at',
+                                'marcas.id as id');
          if($request->numb!=""){
             $marcas = $marcas->paginate($request->numb);
         }else{
             $marcas = $marcas->paginate(100);
         }
 
-        return view('admin.pages.marcas.index')->with(['marcas'=>$marcas]);
+        return view('admin.pages.marcas.index')->with(['marcas'=>$marcas,'input'=>$request]);
 
     }
     

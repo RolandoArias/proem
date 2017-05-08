@@ -20,25 +20,16 @@
       <div class="row">
         <div class="col-md-3">
             <label>Filtrar</label>
-            <select class="form-control">
-              <option>Todos</option>
-              <option>Modelo</option>
-              <option>Tipo de producto</option>
-            </select>
+            {{Form::select('filtro', ['all'=>'Todos','tipo'=>'Tipo de producto','modelo'=>'Modelo'], $input->filtro, ['class'=>'form-control'])}}
         </div>
         <div class="col-md-3">
             <label>Ordenar</label>
-            <select class="form-control" name="order">
-              <option value="asc" @if(old('order')=="asc") selected @endif>Ascendente</option>
-              <option value="desc" @if(old('order')=="desc") selected @endif>Descendente</option>
-              <option value="new" @if(old('order')=="new") selected @endif>Más reciente</option>
-              <option value="old" @if(old('order')=="old") selected @endif>Más antigua</option>
-            </select>
+            {{Form::select('order', ['asc'=>'Ascendente','desc'=>'Descendente','new'=>'Más reciente','old'=>'Más antigua'], $input->order, ['class'=>'form-control'])}}
         </div>
 
         <div class="col-md-3">
           <div class="input-group buscador_margin">
-            <input type="text" class="form-control" placeholder="Buscar..." name="buscar" value="{{old('buscar')}}">
+            <input type="text" class="form-control" placeholder="Buscar..." name="buscar" value="{{$input->buscar}}">
             <span class="input-group-btn">
               <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
             </span>
@@ -65,11 +56,7 @@
             <div class="form-group">
               <label class="control-label col-md-6 text-right">Mostrar </label>
               <div class="col-md-6">
-                <select class="form-control" name="numb">
-                  <option value="100">100</option>
-                  <option value="50">50</option>
-                  <option value="10">10</option>
-                </select>
+                {{Form::select('numb', ['100'=>'100','50'=>'50','10'=>'10'], $input->numb, ['class'=>'form-control', 'onChange'=>'this.form.submit()'])}}
               </div>
             </div>
           </div>
@@ -89,7 +76,7 @@
             <tr>
               <td>{{Carbon\Carbon::parse($modelo->created_at)->format('d-M-Y')}}</td>
               <td>{{$modelo->nombre}}</td>
-              <td>{{$modelo->tipo()}}</td>
+              <td>{{$modelo->tipo}}</td>
               <td>
               <a href="{{url('admin/modelos/'.$modelo->id.'/edit')}}" class="btn btn-warning btn-xs" alt="Editar"><i class="fa fa-pencil"></i></a>
               <a href="{{ route('modelos.destroy',$modelo->id) }}" onclick="event.preventDefault(); document.getElementById('del-form').submit();" class="btn btn-danger btn-xs" alt="Eliminar"><i class="fa fa-remove"></i></a>

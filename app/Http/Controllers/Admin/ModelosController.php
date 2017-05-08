@@ -21,27 +21,52 @@ class ModelosController extends Controller
      */
     public function index(Request $request)
     {  
-        if($request->buscar!=""){
-            $modelos = Modelo::where('nombre','like','%'.$request->buscar.'%');
+        if($request->filtro=="modelo"){
+            if($request->buscar!=""){
+                $modelos = DB::table('modelos')->join('tipos_productos', 'tipos_productos.id', '=', 'modelos.tipo_producto_id')
+                ->where('modelos.nombre','like','%'.$request->buscar.'%');
+            }else{
+                $modelos = DB::table('modelos')->join('tipos_productos', 'tipos_productos.id', '=', 'modelos.tipo_producto_id');
+            }
+        }elseif($request->filtro=="tipo"){
+            if($request->buscar!=""){
+                $modelos = DB::table('modelos')->join('tipos_productos', 'tipos_productos.id', '=', 'modelos.tipo_producto_id')
+                ->where('tipos_productos.nombre','like','%'.$request->buscar.'%');
+            }else{
+                $modelos = DB::table('modelos')->join('tipos_productos', 'tipos_productos.id', '=', 'modelos.tipo_producto_id');
+            }
         }else{
-            $modelos = new Modelo;
+            if($request->buscar!=""){
+                $modelos = DB::table('modelos')->join('tipos_productos', 'tipos_productos.id', '=', 'modelos.tipo_producto_id')
+                ->where('modelos.nombre','like','%'.$request->buscar.'%')
+                ->orWhere('tipos_productos.nombre','like','%'.$request->buscar.'%');
+            }else{
+                $modelos = DB::table('modelos')->join('tipos_productos', 'tipos_productos.id', '=', 'modelos.tipo_producto_id');
+            }
         }
+        
+
         if($request->order=="asc" or $request->order=="desc"){
-            $modelos = $modelos->orderBy('nombre',$request->order);
+            $modelos = $modelos->orderBy('modelos.nombre',$request->order);
         }
         if($request->order=="new"){
-            $modelos = $modelos->orderBy('created_at', 'DESC');
+            $modelos = $modelos->orderBy('modelos.created_at', 'DESC');
         }
         if($request->order=="old"){
-            $modelos = $modelos->orderBy('created_at', 'ASC');
+            $modelos = $modelos->orderBy('modelos.created_at', 'ASC');
         }
+        $modelos = $modelos->groupBy('modelos.id')
+                       ->select('modelos.nombre as nombre',
+                                'tipos_productos.nombre as tipo',
+                                'modelos.created_at as created_at',
+                                'modelos.id as id');
          if($request->numb!=""){
             $modelos = $modelos->paginate($request->numb);
         }else{
             $modelos = $modelos->paginate(100);
         }
 
-        return view('admin.pages.modelos.index')->with(['modelos'=>$modelos]);
+        return view('admin.pages.modelos.index')->with(['modelos'=>$modelos,'input'=>$request]);
 
     }
     

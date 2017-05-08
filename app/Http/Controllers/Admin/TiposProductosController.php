@@ -27,7 +27,7 @@ class TiposProductosController extends Controller
             }else{
                 $tipos = DB::table('tipos_productos')->join('linea_negocios', 'linea_negocios.id', '=', 'tipos_productos.linea_negocio_id');
             }
-        }elseif($request->filtro=="tipo"){
+        }elseif($request->filtro=="linea"){
             if($request->buscar!=""){
                 $tipos = DB::table('tipos_productos')->join('linea_negocios', 'linea_negocios.id', '=', 'tipos_productos.linea_negocio_id')
                 ->where('linea_negocios.nombre','like','%'.$request->buscar.'%');
