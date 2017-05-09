@@ -112,10 +112,10 @@
             @foreach($clientes as $cliente)
             <tr>
               <td>{{Carbon\Carbon::parse($cliente->created_at)->format('d-M-Y')}}</td>
-              <td><img src="{{asset($cliente->picture)}}" width="80" alt=""></td>
+              <td><img src="{{url($cliente->picture)}}" class="img-circle img-thumbnail" width="50" alt=""></td>
               <td>{{$cliente->name}}</td>
               <td>{{$cliente->email}}</td>
-              <td><i class="fa @if($cliente->tipo_user!='email') fa-{{$cliente->tipo_user}} @else fa-envelope @endif"></i></td>
+              <td><i class="fa @if($cliente->tipo_user=='email') fa-envelope  @elseif($cliente->tipo_user=='banco') fa-database @else fa-{{$cliente->tipo_user}}  @endif"></i></td>
               <td>
               <a href="{{url('admin/clientes/'.$cliente->id.'/edit')}}" class="btn btn-warning btn-xs" alt="Editar"><i class="fa fa-pencil"></i></a>
               <a href="{{ route('clientes.destroy',$cliente->id) }}" onclick="event.preventDefault(); document.getElementById('del-form').submit();" class="btn btn-danger btn-xs" alt="Eliminar"><i class="fa fa-remove"></i></a>

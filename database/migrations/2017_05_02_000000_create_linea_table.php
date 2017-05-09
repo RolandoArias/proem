@@ -15,9 +15,9 @@ class CreateLineaTable extends Migration
     {
         Schema::create('linea_negocios', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('tipo',12);
-            $table->string('nombre',200);
-            $table->string('siglas', 50);
+            $table->string('tipo',12)->nullable();
+            $table->string('nombre',200)->nullable();
+            $table->string('siglas', 50)->nullable();
             $table->text('descripcion')->nullable();
             $table->text('picture')->nullable();
             $table->timestamps();

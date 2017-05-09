@@ -12,13 +12,25 @@
 */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+$factory->define(App\Models\User::class, function (Faker\Generator $faker) {
     static $password;
 
     return [
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
+        'linea_negocio' => 1,      
+            'vendedor'      => 1,  
+            'area_interes'  => 0,      
+            'tipo_user'     => $faker->randomElement(array ('facebook','email','banco','twitter')),  
+            'name'          => $faker->name,
+            'last_name'     => $faker->lastName,
+            'parental_name' => $faker->lastName,      
+            'email'         => $faker->unique()->safeEmail,
+            'password'      =>$password ?: $password = bcrypt('123456'),  
+            'activated'     => true,  
+            'picture'         => '/asset_admin/images/avatar.png',
+            'website'       => 'http://'.$faker->domainName.'/',  
+            'comentarios'   => $faker->text(300),      
+            'telephone'     => $faker->phoneNumber, 
+            'token'         => str_random(64),
     ];
 });

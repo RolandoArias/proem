@@ -1579,6 +1579,7 @@ return array(
     'League\\OAuth1\\Client\\Signature\\PlainTextSignature' => $vendorDir . '/league/oauth1-client/src/Client/Signature/PlainTextSignature.php',
     'League\\OAuth1\\Client\\Signature\\Signature' => $vendorDir . '/league/oauth1-client/src/Client/Signature/Signature.php',
     'League\\OAuth1\\Client\\Signature\\SignatureInterface' => $vendorDir . '/league/oauth1-client/src/Client/Signature/SignatureInterface.php',
+    'LineaSeeder' => $baseDir . '/database/seeds/LineaSeeder.php',
     'Mockery' => $vendorDir . '/mockery/mockery/library/Mockery.php',
     'Mockery\\Adapter\\Phpunit\\MockeryPHPUnitIntegration' => $vendorDir . '/mockery/mockery/library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegration.php',
     'Mockery\\Adapter\\Phpunit\\MockeryTestCase' => $vendorDir . '/mockery/mockery/library/Mockery/Adapter/Phpunit/MockeryTestCase.php',

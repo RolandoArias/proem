@@ -8,6 +8,7 @@ use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use App\Models\Admin\LineaNegocio;
 use App\Models\Admin\DatoFacturacion;
+use App\Models\Admin\DatoEnvio;
 use App\Models\User;
 use Form;
 use Auth;
@@ -42,7 +43,7 @@ class ClientesController extends Controller
          if($request->numb!=""){
             $lineas = $lineas->paginate($request->numb);
         }else{
-            $lineas = $lineas->paginate(100);
+            $lineas = $lineas->paginate(20);
         }
 
         return view('admin.pages.clientes.index')->with(['clientes'=>$lineas]);
@@ -70,23 +71,25 @@ class ClientesController extends Controller
     public function store(Request $req)
     {
 
+
+
         $validator = Validator::make($req->all(), [
             
             #'picture'       => 'mimes:jpeg,jpg,png,gif',
             'linea_negocio' =>'required',
-            'email'         =>'required|email|min:1|max:200',
+            'email'         =>'required|email|min:1|max:200|unique:users,email',
             'name'          =>'required|min:1|max:200',
             'last_name'     =>'required|min:1|max:200',
             'parental_name' =>'required|min:1|max:200',
             'email2'        =>'required|email|min:1|max:200',
             'web'           =>'required|url',
-            'vendedores'    =>'required|min:1|max:200',
+            'vendedores'    =>'required',
             'comentarios'   =>'required',
             'razon_social'  =>'required',
             'rfc'           => array(
                           'required',
                           'min:6',
-                          'regex:/^[A-Z]{4}([0-9]{2})(1[0-2]|0[1-9])([0-3][0-9])([ -]?)([A-Z0-9]{4})$/'
+                          'regex:/^[A-Z]{4}([0-9]{2})(1[0-2]|0[1-9])([0-3][0-9])([ -]?)([A-Z0-9]{4})$/'//VECJ880326 XXXX
                          ),
             'cp'            =>'required|numeric',
             'calle'         =>'required',
@@ -97,14 +100,14 @@ class ClientesController extends Controller
             'estado'        =>'required',
             'pais'          =>'required',
             'activo'        =>'required',
-            'cp-2'          => 'required|numeric',
-            'calle-2'       => 'required',
-            'n_ext-2'       => 'required',
-            'n_int-2'       => 'required',
-            'colonia-2'     => 'required',
-            'municipio-2'   => 'required',
-            'estado-2'      => 'required',
-            'pais-2'        => 'required'
+            'cp_2'          => 'required|numeric',
+            'calle_2'       => 'required',
+            'n_ext_2'       => 'required',
+            'n_int_2'       => 'required',
+            'colonia_2'     => 'required',
+            'municipio_2'   => 'required',
+            'estado_2'      => 'required',
+            'pais_2'        => 'required'
         ]);
 
         
@@ -116,34 +119,48 @@ class ClientesController extends Controller
         }
 
         $user = new User;
-        $user->linea_negocio =$req->linea_negocio;        
-        $user->vendedor =$req->vendedores;        
-        $user->area_interes =0;        
-        $user->tipo_user ='base';        
-        $user->name =$req->name ;        
-        $user->last_name =$req->last_name;        
-        $user->parental_name =$req->parental_name;        
-        $user->email =$req->email;        
-        $user->password = Hash::make('demo');        
-        $user->activated =1;        
-        $user->picture ='asset/images/img.jpg';        
-        $user->website =$req->web;        
-        $user->comentarios =$req->comentarios;        
-        $user->telephone =$req->telephone;        
+            $user->linea_negocio =$req->linea_negocio;        
+            $user->vendedor =$req->vendedores;        
+            $user->area_interes =0;        
+            $user->tipo_user ='banco';        
+            $user->name =$req->name ;        
+            $user->last_name =$req->last_name;        
+            $user->parental_name =$req->parental_name;        
+            $user->email =$req->email;        
+            $user->password = Hash::make('demo');        
+            $user->activated =1;        
+            $user->picture ='asset/images/img.jpg';        
+            $user->website =$req->web;        
+            $user->comentarios =$req->comentarios;        
+            $user->telephone =$req->telephone;        
         $user->save();        
         
         $DatoFacturacion = new  DatoFacturacion;
+            $DatoFacturacion->user_id =$user->id;
+            $DatoFacturacion->razon_social =$req->razon_social;
+            $DatoFacturacion->rfc =$req->rfc;
+            $DatoFacturacion->cp =$req->cp;
+            $DatoFacturacion->calle =$req->calle;
+            $DatoFacturacion->n_ext =$req->n_ext;
+            $DatoFacturacion->n_int =$req->n_int;
+            $DatoFacturacion->colonia =$req->colonia;
+            $DatoFacturacion->municipio =$req->municipio;
+            $DatoFacturacion->estado =$req->estado;
+            $DatoFacturacion->pais =$req->pais;
+        $DatoFacturacion->save();
+
+
+        $DatoFacturacion = new  DatoEnvio;
         $DatoFacturacion->user_id =$user->id;
-        $DatoFacturacion->razon_social =$req->razon_social;
-        $DatoFacturacion->rfc =$req->rfc;
-        $DatoFacturacion->cp =$req->cp;
-        $DatoFacturacion->calle =$req->calle;
-        $DatoFacturacion->n_ext =$req->n_ext;
-        $DatoFacturacion->n_int =$req->n_int;
-        $DatoFacturacion->colonia =$req->colonia;
-        $DatoFacturacion->municipio =$req->municipio;
-        $DatoFacturacion->estado =$req->estado;
-        $DatoFacturacion->pais =$req->pais;
+        $DatoFacturacion->activo =$req->activo;
+        $DatoFacturacion->cp =$req->cp_2;
+        $DatoFacturacion->calle =$req->calle_2;
+        $DatoFacturacion->n_ext =$req->n_ext_2;
+        $DatoFacturacion->n_int =$req->n_int_2;
+        $DatoFacturacion->colonia =$req->colonia_2;
+        $DatoFacturacion->municipio =$req->municipio_2;
+        $DatoFacturacion->estado =$req->estado_2;
+        $DatoFacturacion->pais =$req->pais_2;
         $DatoFacturacion->save();
 
         
@@ -164,7 +181,7 @@ class ClientesController extends Controller
             $linea->picture = url('asset/images/img.jpg');
         }*/
 
-        if($dd){
+        if($user){
             
             /*if($req->file('picture')!=NULL)
             {
@@ -185,10 +202,13 @@ class ClientesController extends Controller
      */
     public function edit($id)
     {
-        $linea = LineaNegocio::find($id);
-        if($linea){
-            $type = ['ventas' =>'Ventas', 'compras' =>'Compras', 'staff' =>'Staff', 'servicio' =>'Servicio', 'administrator' =>'Administrador'];
-            return view('admin.pages.clientes.edit')->with(['linea'=>$linea, 'type'=>$type]);
+        $linea = User::find($id);
+
+        $lineas_negocios = LineaNegocio::pluck('nombre', 'id');
+        $vendedores = User::byRole('ventas');
+
+        if($linea){              
+            return view('admin.pages.clientes.edit')->with(['cliente'=>$linea,'lineas_negocios'=>$lineas_negocios,'vendedores'=>$vendedores]);
         }
         return var_dump('404');
     }
@@ -200,34 +220,111 @@ class ClientesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $req, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'tipo' => 'required|min:1|max:12',
-            'name' => 'required|min:1|max:200',
-            'siglas' => 'required|min:1|max:50',
-            'descripcion' => 'required',
-            'picture' => 'mimes:jpeg,jpg,png,gif'
+
+        $validator = Validator::make($req->all(), [
+            
+            #'picture'       => 'mimes:jpeg,jpg,png,gif',
+            'linea_negocio' =>'required',
+            //'email'         =>'required|email|min:1|max:200|unique:users,email',
+            'name'          =>'required|min:1|max:200',
+            'last_name'     =>'required|min:1|max:200',
+            'parental_name' =>'required|min:1|max:200',
+            //'email2'        =>'required|email|min:1|max:200',
+            'web'           =>'required|url',
+            'vendedores'    =>'required',
+            'comentarios'   =>'required',
+            'razon_social'  =>'required',
+            'rfc'           => array(
+                          'required',
+                          'min:6',
+                          'regex:/^[A-Z]{4}([0-9]{2})(1[0-2]|0[1-9])([0-3][0-9])([ -]?)([A-Z0-9]{4})$/'//VECJ880326 XXXX
+                         ),
+            'cp'            =>'required|numeric',
+            'calle'         =>'required',
+            'n_ext'         =>'required',
+            'n_int'         =>'required',
+            'colonia'       =>'required',
+            'municipio'     =>'required',
+            'estado'        =>'required',
+            'pais'          =>'required',
+            'activo'        =>'required',
+            'cp_2'          => 'required|numeric',
+            'calle_2'       => 'required',
+            'n_ext_2'       => 'required',
+            'n_int_2'       => 'required',
+            'colonia_2'     => 'required',
+            'municipio_2'   => 'required',
+            'estado_2'      => 'required',
+            'pais_2'        => 'required'
         ]);
 
-        if ($validator->fails()) {
+        if ($validator->fails()) { //dd($validator);
             return redirect()->back()
                         ->withErrors($validator)
                         ->withInput();
         }
 
-        $linea = LineaNegocio::find($id);
-        if(!$linea){
+        $user = User::find($id);
+        if(!$user){
             return var_dump('404');
         }
 
-        $linea = LineaNegocio::find($id);
-        $linea->tipo = $request->tipo;
-        $linea->name = $request->name;
-        $linea->siglas = $request->siglas;
-        $linea->descripcion = $request->descripcion;
+        $user = User::find($id);
+            $user->linea_negocio =$req->linea_negocio;        
+            $user->vendedor =$req->vendedores;        
+            $user->area_interes =0;        
+            $user->tipo_user ='banco';        
+            $user->name =$req->name ;        
+            $user->last_name =$req->last_name;        
+            $user->parental_name =$req->parental_name;        
+            ///$user->email =$req->email;        
+            $user->password = Hash::make('demo');        
+            $user->activated =1;        
+            //$user->picture ='asset/images/img.jpg';        
+            $user->website =$req->web;        
+            $user->comentarios =$req->comentarios;        
+            $user->telephone =$req->telephone;        
+        $user->save();        
 
-        if($request->file('picture')!=NULL)
+        if($req->factura_id==0){
+            $DatoFacturacion = new DatoFacturacion;
+        }else{
+            $DatoFacturacion = DatoFacturacion::find($req->factura_id);
+        }
+            $DatoFacturacion->user_id =$user->id;
+            $DatoFacturacion->razon_social =$req->razon_social;
+            $DatoFacturacion->rfc =$req->rfc;
+            $DatoFacturacion->cp =$req->cp;
+            $DatoFacturacion->calle =$req->calle;
+            $DatoFacturacion->n_ext =$req->n_ext;
+            $DatoFacturacion->n_int =$req->n_int;
+            $DatoFacturacion->colonia =$req->colonia;
+            $DatoFacturacion->municipio =$req->municipio;
+            $DatoFacturacion->estado =$req->estado;
+            $DatoFacturacion->pais =$req->pais;
+        $DatoFacturacion->save();
+
+        if($req->envio_id==0){
+            $DatoEnvio = new DatoEnvio;
+        }else{
+           $DatoEnvio = DatoEnvio::find($req->envio_id);
+        }
+        
+            $DatoEnvio->user_id =$user->id;
+            $DatoEnvio->activo =$req->activo;
+            $DatoEnvio->cp =$req->cp_2;
+            $DatoEnvio->calle =$req->calle_2;
+            $DatoEnvio->n_ext =$req->n_ext_2;
+            $DatoEnvio->n_int =$req->n_int_2;
+            $DatoEnvio->colonia =$req->colonia_2;
+            $DatoEnvio->municipio =$req->municipio_2;
+            $DatoEnvio->estado =$req->estado_2;
+            $DatoEnvio->pais =$req->pais_2;
+        $DatoEnvio->save();
+
+        /*if($request->file('picture')!=NULL)
         {
             //agrega imagen de picture
             $file_picture=$request->file('picture');
@@ -238,13 +335,13 @@ class ClientesController extends Controller
             $picture= url('asset/images').'/PIC'.$picture;
             $linea->picture = $picture;
 
-        }
+        }*/
 
-        if($linea->save()){
-            if($request->file('picture')!=NULL)
+        if($user->save()){
+            /*if($request->file('picture')!=NULL)
             {
                 $file_picture->move("asset/images/",$picture); 
-            }
+            }*/
             return redirect('/admin/clientes');
         }
 

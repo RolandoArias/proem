@@ -97,9 +97,10 @@ class SocialController extends Controller
                 $newSocialUser->picture=$user->avatar;
                 $newSocialUser->password = bcrypt(str_random(16));
                 $newSocialUser->token = str_random(64);
-                $newSocialUser->telephone = '';
+                $newSocialUser->tipo_user = $provider; 
                 $newSocialUser->activated = true; //!config('settings.activation');
                 $newSocialUser->save();
+
 
                 $socialData = new Social;
                 $socialData->social_id = $user->id;
@@ -107,15 +108,17 @@ class SocialController extends Controller
                 $newSocialUser->social()->save($socialData);
 
                 // Add role
-                $role = Role::whereName('user')->first();
+                $role = Role::whereName('cliente')->first();
                 $newSocialUser->assignRole($role);
 
                // $this->initiateEmailActivation($newSocialUser);
 
                 $socialUser = $newSocialUser;
+                
 
             }
             else {
+                
                 
                 $socialUser = $sameSocialId->user;
                 
@@ -127,14 +130,14 @@ class SocialController extends Controller
         
   
         auth()->login($socialUser, true);
-        $id = Auth::user()->id;
+        /*$id = Auth::user()->id;
         $user = User::find(Auth::user()->id);
         $user->login = 1;
-        $user->save();
+        $user->save();*/
         
        # Mail::to($user->email)->send(new UserRegisterEmail('$link',$user->name));       
 
-        if ( auth()->user()->hasRole('user')) {
+        if ( auth()->user()->hasRole('cliente')) {
 
             return redirect()->route('user.mi-cuenta');
 
