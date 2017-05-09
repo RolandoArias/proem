@@ -356,9 +356,12 @@ class ClientesController extends Controller
      */
     public function destroy($id)
     {
-
-        $linea = LineaNegocio::find($id);
+        dd($id);
+        $linea = User::find($id);
         $linea->delete();
+
+       
+
             return redirect('/admin/clientes');
          
  
