@@ -113,7 +113,7 @@
             <tr>
               <td>{{Carbon\Carbon::parse($cliente->created_at)->format('d-M-Y')}}</td>
               <td><img src="{{asset($cliente->picture)}}" width="80" alt=""></td>
-              <td>{{$cliente->name ." ".$cliente->last_name}}</td>
+              <td>{{$cliente->name}}</td>
               <td>{{$cliente->email}}</td>
               <td><i class="fa @if($cliente->tipo_user!='email') fa-{{$cliente->tipo_user}} @else fa-envelope @endif"></i></td>
               <td>

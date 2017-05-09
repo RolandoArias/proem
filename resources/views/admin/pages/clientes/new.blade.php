@@ -1,16 +1,16 @@
 @extends('admin.layouts.master')
 
-@section('title', 'Líneas de Negocio')
+@section('title', 'Clientes')
 
 
 @section('content')
 <div class="row">
   <div class="col-md-12 col-sm-12 col-xs-12">
-    <h1>Agregando línea de negocio</h1>
+    <h1>Agregando Clientes</h1>
   </div>
 </div>
 
-<form action="{{route('linea-negocios.store')}}" method="post" enctype="multipart/form-data">
+<form action="{{route('clientes.store')}}" method="post" enctype="multipart/form-data">
     {{ csrf_field() }}
     <div class="row bg_blanco"> 
         <div class="row">
@@ -21,20 +21,16 @@
         
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-3">
-            <label for="">Email </label><input type="text" class="form-control" placeholder="Ej. example@promin.mx"> <!-- VALIDAR que no se repitan los nombres de usuario -->
+            <label for="email">Email </label><input value="{{ old('email') }}" name="email" type="text" class="form-control" placeholder="Ej. example@promin.mx"> <!-- VALIDAR que no se repitan los nombres de usuario -->
+            @if ($errors->has('email'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('email') }}</strong>
+                </span>
+            @endif
           </div>
           <div class="col-xs-12 col-sm-12 col-md-3">
-            <label for="">Línea de negocio de interés</label>
-            <select name="" id="" class="form-control">
-              <option>Todas</option>
-              <option>Brunner &amp; Lay</option>
-              <option>Cosben</option>
-              <option>Equipo usado</option>
-              <option>KCP</option>
-              <option>MX</option>
-              <option>PROMIN Blast</option>
-              <option>PROMIN Drill</option>
-            </select>
+            <label for="linea_negocio">Línea de negocio de interés</label>
+            {!! Form::select('linea_negocio', $lineas_negocios,null,['class' => 'form-control','placeholder' => 'Línea de negocio']) !!}
           </div>
         </div>
 
@@ -49,39 +45,61 @@
         </div>
         <div class="row">
               <div class="col-xs-12 col-sm-12 col-md-3">
-                <label for="">Nombre </label><input type="text" class="form-control"> 
+                <label for="name">Nombre </label><input value="{{ old('name') }}" name="name" type="text" class="form-control">
+                @if ($errors->has('name'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('name') }}</strong>
+                    </span>
+                @endif
               </div>
               <div class="col-xs-12 col-sm-12 col-md-3">
-                <label for="">Apellido paterno </label><input type="text" class="form-control"> 
+                <label for="last_name">Apellido paterno </label><input value="{{ old('last_name') }}" name="last_name" id="last_name" type="text" class="form-control"> 
+                @if ($errors->has('last_name'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('last_name') }}</strong>
+                    </span>
+                @endif
               </div>
               <div class="col-xs-12 col-sm-12 col-md-3">
-                <label for="">Apellido materno </label><input type="text" class="form-control"> 
+                <label for="parental_name">Apellido materno </label><input value="{{ old('parental_name') }}" name="parental_name" id="parental_name" type="text" class="form-control">
+                @if ($errors->has('parental_name'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('parental_name') }}</strong>
+                    </span>
+                @endif 
               </div>
         </div>
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-3">
-            <label for="">Email </label><input type="text" class="form-control"> 
+            <label for="email2">Email </label><input value="{{ old('email2') }}" name="email2" id="email2" type="text" class="form-control"> 
+            @if ($errors->has('email2'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('email2') }}</strong>
+                    </span>
+            @endif
           </div>
           <div class="col-xs-12 col-sm-12 col-md-3">
-            <label for="">Página web </label><input type="text" class="form-control"> 
+            <label for="web">Página web </label><input value="{{ old('web') }}" name="web" id="web" type="text" class="form-control"> 
+            @if ($errors->has('web'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('web') }}</strong>
+                    </span>
+            @endif
           </div>
         </div>
 
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-3">
-            <label for="">Vendedor </label>
-            <select class="form-control">
-              <option value="">Guillermo Yllescas</option>
-              <option value="">Rafael Domínguez</option>
-              <option value="">Mauricio Santana</option>
-              <option value="">Michelle Espinosa</option>
-              <option value="">Gabriela Pérez</option>
-              <option value="">Alejandra Juárez</option>
-              <option value="">Pamela</option>
-            </select>
+            <label for="vendedor">Vendedor </label>
+            {!! Form::select('vendedores', $vendedores,null,['class' => 'form-control','placeholder' => 'Vendedores']) !!}
           </div>
           <div class="col-xs-12 col-sm-12 col-md-6">
-            <label for="">Comentarios </label><textarea class="form-control"></textarea>
+            <label for="comentarios">Comentarios </label><textarea   name="comentarios" id="comentarios" class="form-control">{{ old('comentarios') }}</textarea>
+            @if ($errors->has('comentarios'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('comentarios') }}</strong>
+                    </span>
+            @endif
           </div>
         </div>
 
@@ -97,43 +115,93 @@
 
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-6">
-            <label for="">Nombre / Razón Social </label><input type="text" class="form-control"> 
+            <label for="razon_social">Nombre / Razón Social </label><input value="{{ old('razon_social') }}" name="razon_social" id="razon_social" type="text" class="form-control"> 
+             @if ($errors->has('razon_social'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('razon_social') }}</strong>
+                    </span>
+            @endif
           </div>
           <div class="col-xs-12 col-sm-12 col-md-2">
-            <label for="">R.F.C. </label><input type="text" class="form-control"> <!-- VALIDAR el formato del RFC -->
+            <label for="rfc">R.F.C. </label><input value="{{ old('rfc') }}" name="rfc" id="rfc" type="text" class="form-control"> <!-- VALIDAR el formato del RFC -->
+            @if ($errors->has('rfc'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('rfc') }}</strong>
+                    </span>
+            @endif
           </div>
           <div class="col-xs-12 col-sm-12 col-md-2">
-            <label for="">C.P. </label><input type="text" class="form-control"> <!-- Al igual que en front, con capturar el C.P. se deberá de llenar la información de Colonia, Delegación/Municipio, Estado y País -por default es México- -->
+            <label for="cp">C.P. </label><input value="{{ old('cp') }}" name="cp" id="cp" type="text" class="form-control"> <!-- Al igual que en front, con capturar el C.P. se deberá de llenar la información de Colonia, Delegación/Municipio, Estado y País -por default es México- -->
+            @if ($errors->has('cp'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('cp') }}</strong>
+                    </span>
+            @endif
           </div>
         </div>
 
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-6">
-            <label for="">Calle </label><input type="text" class="form-control"> 
+            <label for="calle">Calle </label><input value="{{ old('calle') }}" name="calle" id="calle" type="text" class="form-control"> 
+            @if ($errors->has('calle'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('calle') }}</strong>
+                    </span>
+            @endif
           </div>
           <div class="col-xs-12 col-sm-12 col-md-2">
-            <label for="">No. Ext. </label><input type="text" class="form-control">
+            <label for="n_ext">No. Ext. </label><input value="{{ old('n_ext') }}" name="n_ext" id="n_ext" type="text" class="form-control">
+            @if ($errors->has('n_ext'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('n_ext') }}</strong>
+                    </span>
+            @endif
           </div>
           <div class="col-xs-12 col-sm-12 col-md-2">
-            <label for="">No. Int. </label><input type="text" class="form-control"> 
+            <label for="n_int">No. Int. </label><input value="{{ old('n_int') }}" name="n_int" id="n_int" type="text" class="form-control"> 
+            @if ($errors->has('n_int'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('n_int') }}</strong>
+                    </span>
+            @endif
           </div>
         </div>
 
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-5">
-            <label for="">Colonia </label><input type="text" class="form-control"> 
+            <label for="colonia">Colonia </label><input value="{{ old('colonia') }}" name="colonia" id="colonia" type="text" class="form-control">
+            @if ($errors->has('colonia'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('colonia') }}</strong>
+                    </span>
+            @endif 
           </div>
           <div class="col-xs-12 col-sm-12 col-md-5">
-            <label for="">Delegación / Municipio </label><input type="text" class="form-control">
+            <label for="municipio">Delegación / Municipio </label><input value="{{ old('municipio') }}" name="municipio" id="municipio" type="text" class="form-control">
+            @if ($errors->has('municipio'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('municipio') }}</strong>
+                    </span>
+            @endif
           </div>
         </div>
 
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-5">
-            <label for="">Estado </label><input type="text" class="form-control"> 
+            <label for="estado">Estado </label><input value="{{ old('estado') }}" name="estado" id="estado" type="text" class="form-control"> 
+            @if ($errors->has('estado'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('estado') }}</strong>
+                    </span>
+            @endif
           </div>
           <div class="col-xs-12 col-sm-12 col-md-5">
-            <label for="">País </label><input type="text" class="form-control"> <!-- por default México, a menos que el usuario lo cambie-->
+            <label for="pais">País </label><input value="{{ old('pais') }}" name="pais" id="pais" type="text" class="form-control"> <!-- por default México, a menos que el usuario lo cambie-->
+            @if ($errors->has('pais'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('pais') }}</strong>
+                    </span>
+            @endif
           </div>
         </div>
 
@@ -150,44 +218,84 @@
         <div class="row">
           <div class="col-md-12">
             <ul class="lista_check">
-              <li><label class="checkbox-inline"><input type="checkbox" value="" checked="">Usar domicilio de facturación</label></li>
+              <li><label for="activo" class="checkbox-inline"><input name="activo" id="activo" type="checkbox" value="" checked="">Usar domicilio de facturación</label></li>
             </ul>
           </div>
         </div>
 
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-2">
-            <label for="">C.P. </label><input type="text" class="form-control"> <!-- Al igual que en front, con capturar el C.P. se deberá de llenar la información de Colonia, Delegación/Municipio, Estado y País -por default es México- -->
+            <label for="cp-2">C.P. </label><input value="{{ old('cp-2') }}" name="cp-2" id="cp-2" type="text" class="form-control"> <!-- Al igual que en front, con capturar el C.P. se deberá de llenar la información de Colonia, Delegación/Municipio, Estado y País -por default es México- -->
+            @if ($errors->has('cp-2'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('cp-2') }}</strong>
+                    </span>
+            @endif
           </div>
         </div>
 
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-6">
-            <label for="">Calle </label><input type="text" class="form-control"> 
+            <label for="calle-2">Calle </label><input value="{{ old('calle-2') }}" name="calle-2" id="calle-2" type="text" class="form-control">
+            @if ($errors->has('calle-2'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('calle-2') }}</strong>
+                    </span>
+            @endif 
           </div>
           <div class="col-xs-12 col-sm-12 col-md-2">
-            <label for="">No. Ext. </label><input type="text" class="form-control">
+            <label for="n_ext-2">No. Ext. </label><input value="{{ old('n_ext-2') }}" name="n_ext-2" id="n_ext-2" type="text" class="form-control">
+            @if ($errors->has('n_ext-2'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('n_ext-2') }}</strong>
+                    </span>
+            @endif
           </div>
           <div class="col-xs-12 col-sm-12 col-md-2">
-            <label for="">No. Int. </label><input type="text" class="form-control"> 
+            <label for="n_int-2">No. Int. </label><input value="{{ old('n_int-2') }}" name="n_int-2" id="n_int-2" type="text" class="form-control">
+            @if ($errors->has('n_int-2'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('n_int-2') }}</strong>
+                    </span>
+            @endif
           </div>
         </div>
 
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-5">
-            <label for="">Colonia </label><input type="text" class="form-control"> 
+            <label for="colonia-2">Colonia </label><input value="{{ old('colonia-2') }}" name="colonia-2" id="colonia-2" type="text" class="form-control">
+            @if ($errors->has('colonia-2'))
+                    <span class="help-block">
+                        <strong>{{$errors->first('colonia-2')}}</strong>
+                    </span>
+            @endif 
           </div>
           <div class="col-xs-12 col-sm-12 col-md-5">
-            <label for="">Delegación / Municipio </label><input type="text" class="form-control">
+            <label for="municipio-2">Delegación / Municipio </label><input value="{{ old('municipio-2') }}" name="municipio-2" id="municipio-2" type="text" class="form-control">
+            @if ($errors->has('municipio-2'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('municipio-2')}}</strong>
+                    </span>
+            @endif 
           </div>
         </div>
 
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-5">
-            <label for="">Estado </label><input type="text" class="form-control"> 
+            <label for="estado-2">Estado </label><input value="{{ old('estado-2') }}" name="estado-2" id="estado-2" type="text" class="form-control"> 
+            @if ($errors->has('estado-2'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('estado-2')}}</strong>
+                    </span>
+            @endif 
           </div>
           <div class="col-xs-12 col-sm-12 col-md-5">
-            <label for="">País </label><input type="text" class="form-control"> <!-- por default México, a menos que el usuario lo cambie-->
+            <label for="pais-2">País </label><input value="{{ old('pais-2') }}" name="pais-2" id="pais-2" type="text" class="form-control"> <!-- por default México, a menos que el usuario lo cambie-->
+            @if ($errors->has('pais-2'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('pais-2')}}</strong>
+                    </span>
+            @endif 
           </div>
         </div>
 
@@ -195,63 +303,8 @@
         <div class="col-xs-12 col-sm-12 col-md-12">
           <button type="submit" class="btn btn-success btn-lg"><i class="fa fa-floppy-o"></i> Guardar</button>    
         </div>
-    <div class="col-xs-12 col-sm-12 col-md-3">
-      <label for="">Tipo</label>
-      <ul class="lista_radio_inline">
-        <li><label class="radio-inline"><input type="radio" value="mx" name="tipo" @if(old('tipo')=="mx" or old('tipo')=="") checked @endif>MX</label></li>
-        <li><label class="radio-inline"><input type="radio" value="unidades" name="tipo" @if(old('tipo')=="unidades") checked @endif>Unidades</label></li>
-      </ul>
-      @if ($errors->has('tipo'))
-          <span class="help-block">
-              <strong>{{ $errors->first('tipo') }}</strong>
-          </span>
-      @endif
-    </div>
-    
-    <div class="col-xs-12 col-sm-12 col-md-6">
-      <label for="">Nombre </label><input type="text" class="form-control" name="nombre" value="{{ old('nombre') }}">
-      @if ($errors->has('nombre'))
-          <span class="help-block">
-              <strong>{{ $errors->first('nombre') }}</strong>
-          </span>
-      @endif
-    </div>
-
-    <div class="col-xs-12 col-sm-12 col-md-3">
-      <label for="">Siglas </label><input type="text" class="form-control" name="siglas" value="{{ old('siglas') }}">
-      @if ($errors->has('siglas'))
-          <span class="help-block">
-              <strong>{{ $errors->first('siglas') }}</strong>
-          </span>
-      @endif
-    </div>
-
-    <div class="col-xs-12 col-sm-12 col-md-12">
-      <label for="">Descripción (SEO) </label><textarea class="form-control" name="descripcion">{{ old('descripcion') }}</textarea>
-      @if ($errors->has('descripcion'))
-          <span class="help-block">
-              <strong>{{ $errors->first('descripcion') }}</strong>
-          </span>
-      @endif
-    </div>
-
-    <div class="col-md-12">
-      <label for="">Imagen</label>
-      <span><br>Tamaño recomendado: ancho 2000px y alto 1333px.</span>
-      <span><br>Peso sugerido: 350Kb</span>
-      <input type="file" name="picture">
-      @if ($errors->has('picture'))
-          <span class="help-block">
-              <strong>{{ $errors->first('picture') }}</strong>
-          </span>
-      @endif
-      <br>
-      <img src="images/banner-kcp.jpg" width="200" class="img-thumbnail">
-    </div>
-    
-    <div class="col-xs-12 col-sm-12 col-md-12">
-      <button type="submit" class="btn btn-success btn-lg"><i class="fa fa-floppy-o"></i> Guardar</button>    
-    </div>
+     
+ 
   </div> <!-- FIN ROW -->
 </form>
 @endsection

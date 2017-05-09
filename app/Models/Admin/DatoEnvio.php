@@ -3,6 +3,7 @@ namespace App\Models\Admin;
 
 use Illuminate\Database\Eloquent\Model;
 use DB;
+
 class DatoEnvio extends Model {
 
     /**
@@ -10,7 +11,7 @@ class DatoEnvio extends Model {
      *
      * @var string
      */
-    protected $table = 'datos_facturacion';
+    protected $table = 'datos_envios';
 
     public function user()
     {

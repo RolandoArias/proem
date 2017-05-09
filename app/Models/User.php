@@ -120,9 +120,18 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     public static function byRole($nameRol)
     {
+        if($nameRol=="cliente"){
          $roles = DB::table('users')->join('role_user', 'role_user.user_id', '=', 'users.id')->join('roles', 'role_user.role_id', '=', 'roles.id')
-            ->where('roles.name',$nameRol);
+            ->where('roles.name',$nameRol)
+            ->select(DB::raw("concat(users.name,' ', users.last_name) as name"),'users.email as email','users.tipo_user as tipo_user','users.id as id','users.picture as picture','users.created_at  as created_at');
             //->get();
+        }else if($nameRol=="ventas"){
+            $roles = DB::table('users')->join('role_user', 'role_user.user_id', '=', 'users.id')->join('roles', 'role_user.role_id', '=', 'roles.id')
+            ->where('roles.name',$nameRol)
+            ->pluck(DB::raw("concat(users.name,' ', users.last_name) as name"),'users.id as id');
+
+        }
+        
         return $roles;
     }
 
