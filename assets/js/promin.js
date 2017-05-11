@@ -11,7 +11,7 @@ var promin = {
         var email = $('#email_register').val();
         var pass = $('#pass').val();
         if (!$('#aviso').prop("checked")) {
-            alert("Debe Aceptar los Terminos Y condiciones");
+            alert("Debe Aceptar el Aviso de Privacidad y  los Términos y Condiciones de Uso.");
             return false;
         }
         $.ajax({
@@ -84,6 +84,7 @@ var promin = {
             return false;
         }
 
+        
         $.ajax({
             method: "POST",
             url: "/update/edit_profile",
@@ -113,7 +114,6 @@ var promin = {
                 });
                 errorsHtml += '</ul></di>';
                 $('#form-errors-edir-perfil').html(errorsHtml); //appending to a <div id="form-errors"></div> inside form
-
             }
         });
     },
@@ -129,6 +129,12 @@ var promin = {
 
             reader.readAsDataURL(input.files[0]);
         }
+    },
+    showMgs:function(){
+                $('.msj_success').removeClass('hide');
+                setTimeout(function() {
+                    $('.msj_success').addClass('hide');
+                }, 2000);
     }
 }
 

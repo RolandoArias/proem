@@ -54,11 +54,11 @@ class MarcasController extends Controller
         if($request->order=="old"){
             $marcas = $marcas->orderBy('marcas.created_at', 'ASC');
         }
-        $marcas = $marcas->groupBy('marcas.id')
-                       ->select('marcas.nombre as nombre',
+        $marcas = $marcas->select('marcas.nombre as nombre',
                                 'tipos_productos.nombre as tipo',
                                 'marcas.created_at as created_at',
-                                'marcas.id as id');
+                                'marcas.id as id')
+                        ->groupBy('marcas.id');
          if($request->numb!=""){
             $marcas = $marcas->paginate($request->numb);
         }else{

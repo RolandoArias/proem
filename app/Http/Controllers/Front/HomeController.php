@@ -28,6 +28,8 @@ class HomeController extends Controller
 
     public function getMiCuenta()
     {
+        //dd( old_input(null,2,'ok'));
+        
         return view('front.pages.mi-cuenta')->with('carousel',false);;
     }
 }

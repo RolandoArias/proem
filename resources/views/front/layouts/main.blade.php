@@ -81,7 +81,7 @@
 <script>
     var player = new MediaElementPlayer('#player1');
 </script>
-
+ @yield('js-script')
 </body>
 
 </html>

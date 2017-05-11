@@ -100,14 +100,14 @@ class ClientesController extends Controller
             'estado'        =>'required',
             'pais'          =>'required',
             'activo'        =>'required',
-            'cp_2'          => 'required|numeric',
-            'calle_2'       => 'required',
-            'n_ext_2'       => 'required',
-            'n_int_2'       => 'required',
-            'colonia_2'     => 'required',
-            'municipio_2'   => 'required',
-            'estado_2'      => 'required',
-            'pais_2'        => 'required'
+            'cp_2'          =>'required|numeric',
+            'calle_2'       =>'required',
+            'n_ext_2'       =>'required',
+            'n_int_2'       =>'required',
+            'colonia_2'     =>'required',
+            'municipio_2'   =>'required',
+            'estado_2'      =>'required',
+            'pais_2'        =>'required'
         ]);
 
         
@@ -148,7 +148,6 @@ class ClientesController extends Controller
             $DatoFacturacion->estado =$req->estado;
             $DatoFacturacion->pais =$req->pais;
         $DatoFacturacion->save();
-
 
         $DatoFacturacion = new  DatoEnvio;
         $DatoFacturacion->user_id =$user->id;
