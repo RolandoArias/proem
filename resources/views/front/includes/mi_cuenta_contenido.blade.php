@@ -87,7 +87,7 @@
                                         <div class="well">
                                             <div class="row">
                                                 <div class="col-md-4">
-                                                    <input name="razon_social" value="@if(old('razon_social')){{old('razon_social')}}@else @if(isset(Auth::user()->datoFacturacion)){{ Auth::user()->datoFacturacion->razon_social }}@endif @endif"  type="text" class="form-control custom_in" placeholder="* Nombre o Razón Social">
+                                                    {{Form::text('razon_social',Auth::user()->datoFacturacion->razon_social,['class'=>'form-control custom_in','placeholder'=>'* Nombre o Razón Social']) }}
                                                     @if ($errors->has('razon_social'))
                                                         <span class="help-block">
                                                             <strong>{{ $errors->first('razon_social') }}</strong>
@@ -96,7 +96,7 @@
                                                     <br>
                                                 </div>
                                                 <div  class="col-md-4">
-                                                    <input name="rfc" value="@if(old('rfc')){{old('rfc')}}@else @if(isset(Auth::user()->datoFacturacion)){{ Auth::user()->datoFacturacion->rfc }}@endif @endif" type="text" class="form-control custom_in" placeholder="* R.F.C.">
+                                                    {{Form::text('rfc',Auth::user()->datoFacturacion->rfc,['class'=>'form-control custom_in','placeholder'=>'* R.F.C']) }}
                                                     @if ($errors->has('rfc'))
                                                         <span class="help-block">
                                                             <strong>{{ $errors->first('rfc') }}</strong>
@@ -105,6 +105,8 @@
                                                     <br>
                                                 </div>
                                                 <div class="col-md-2">
+                                                    {{Form::text('cp',Auth::user()->datoFacturacion->cp,['class'=>'form-control custom_in','placeholder'=>'* CP']) }}
+
                                                     <input name="cp" value="@if(old('cp')){{old('cp')}}@else @if(isset(Auth::user()->datoFacturacion)){{ Auth::user()->datoFacturacion->cp }}@endif @endif" type="text" class="form-control custom_in" placeholder="* C.P.">
                                                     @if ($errors->has('cp'))
                                                         <span class="help-block">
@@ -114,7 +116,7 @@
                                                     <br>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <input name="calle" value="@if(isset(Auth::user()->datoFacturacion)){{ Auth::user()->datoFacturacion->calle }} @else {{old('calle')}} @endif" type="text" class="form-control custom_in" placeholder="* Calle">
+                                                    {{Form::text('calle',Auth::user()->datoFacturacion->calle,['class'=>'form-control custom_in','placeholder'=>'* Calle']) }}
                                                     @if ($errors->has('calle'))
                                                         <span class="help-block">
                                                             <strong>{{ $errors->first('calle') }}</strong>
