@@ -26,7 +26,7 @@
     <script src="{{asset('asset_admin/build/js/custom.min.js')}}"></script>
 
   
-    
+    @yield('script')
 
     <!-- Galería -->
     <script>
@@ -53,6 +53,7 @@
           },
           type: 'image' 
       });
+
     </script>
 
     
