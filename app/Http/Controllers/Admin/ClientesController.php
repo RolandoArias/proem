@@ -25,9 +25,12 @@ class ClientesController extends Controller
     {  
      
         $users = User::byRole('cliente');
-         
+        
+
         if($request->buscar!=""){
             $lineas =  $users->where('name','like','%'.$request->buscar.'%');
+                dd($lineas->get());
+
         }else{
             $lineas = $users;
         }
