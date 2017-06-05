@@ -9,7 +9,7 @@
   <div class="row">
     <div class="col-md-6">
       <h1><i class="fa fa-key"></i> Accesos</h1>
-      <a href="{{url('admin/accesos/create')}}" class="btn btn-round btn-success btn-md"><i class="fa fa-plus"></i> Agregar</a>
+      <a href="{{url('admin/productos/create')}}" class="btn btn-round btn-success btn-md"><i class="fa fa-plus"></i> Agregar</a>
       <a class="btn btn-round btn-primary btn-md" role="button" data-toggle="collapse" href="#herramientas" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-filter"></i> <i class="fa fa-search"></i></a>
     </div>
   </div><!-- FIN ROW -->

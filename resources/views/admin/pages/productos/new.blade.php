@@ -25,6 +25,7 @@
       </ul>
       
       <div id="myTabContent" class="tab-content">
+          
           <div role="tabpanel" class="tab-pane fade active in" id="datos_generales" aria-labelledby="home-tab">
 
             @include('admin.pages.productos.includes.tab_datos_generales')
@@ -57,14 +58,7 @@
           </div> <!-- FIN TAB -->
         
         </div> <!-- FIN CONTENIDO TABS -->
-        
-        <div class="row">
-          <div class="col-md-12">
-            <hr>
-            <button type="button" class="btn btn-success btn-lg"><i class="fa fa-floppy-o"></i> Guardar</button>    
-          </div>
-        </div>
-        
+             
 
       </div>  <!-- FIN TABPANEL -->
     </div> <!-- FIN X_CONTENT --> 

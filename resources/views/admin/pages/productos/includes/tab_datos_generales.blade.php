@@ -2,8 +2,10 @@
   <div class="col-md-12"><h2>Ubicación</h2></div>
 </div> <!-- FIN ROW -->
 
+
+{{Form::model($producto, ['route' => ['productos.update', $producto->id],'files' => true, 'method' => 'put'])}}
+<input type="hidden" name="_method" value="PUT">
 <div class="row">
-{{Form::open(['route' => ['modelos.store'],'files' => true])}}
   <div class="col-md-6">
     <div class="form-group">
       <label class="control-label col-md-4">Línea de negocio</label>
@@ -23,7 +25,6 @@
       </div>
     </div>
   </div>
-
 </div> <!-- FIN ROW -->
 
 
@@ -79,17 +80,17 @@
 
 <div class="row">
   <div class="col-md-3">
-    <label for="">No. de Factura de Compra </label>{{Form::text('factura', NULL, ['class'=>'form-control'])}}
+    <label for="">No. de Factura de Compra </label>{{Form::text('nFact', NULL, ['class'=>'form-control'])}}
   </div>
   <div class="col-md-3">
-    <label for="">No. de Pedimento </label>{{Form::text('pedimento', NULL, ['class'=>'form-control'])}}
+    <label for="">No. de Pedimento </label>{{Form::text('nPedi', NULL, ['class'=>'form-control'])}}
   </div>
   <div class="col-md-3">
     <label for="">Horómetro </label>{{Form::text('horometro', NULL, ['class'=>'form-control'])}} <!-- es forzoso este campo para guardar-->
   </div>
   <div class="col-md-3">
     <label for="">Asesor </label>
-    {{Form::select('asesor', $lineas, NULL, ['class'=>'form-control', 'id'=>'linea'])}}
+    {{Form::select('asesor_id', $lineas, NULL, ['class'=>'form-control', 'id'=>'linea'])}}
   </div>
 </div> <!-- FIN ROW -->
 
@@ -108,7 +109,7 @@
 </div> <!-- FIN ROW -->
 
 
-<!--<div class="row">
+<div class="row">
   <div class="col-md-12">
     <div class="drag">
       <img rel="1" src="images/img_producto_demo_1.jpg" class="img-thumbnail" width="150">
@@ -118,7 +119,7 @@
       <img rel="5" src="images/img_producto_demo_5.jpg" class="img-thumbnail" width="150">
     </div>
   </div>
-</div>  FIN ROW -->
+</div>  <!-- FIN ROW -->
 
 <div class="row">
   <div class="col-md-12"><hr></div>
@@ -133,7 +134,7 @@
     <label for="">Precio Interno<br>$0.00 </label> <!-- Precio Interno es igual a la suma de de todos conceptos en el tab Gastos-->
   </div>
   <div class="col-md-3">
-    <label for="">Precio Venta </label>{{Form::text('precio', NULL, ['class'=>'form-control','placeholder'=>'$0.00'])}} <!-- Validar que la cantidad que se capture, jamás sea inferior al precio interno, de lo contrario, no se podrá guardar el registro. Si se eligió publicarlo en la web, el concepto precio venta debe de capturarse forzosamente .-->
+    <label for="">Precio Venta </label>{{Form::text('priceVenta', NULL, ['class'=>'form-control','placeholder'=>'$0.00'])}} <!-- Validar que la cantidad que se capture, jamás sea inferior al precio interno, de lo contrario, no se podrá guardar el registro. Si se eligió publicarlo en la web, el concepto precio venta debe de capturarse forzosamente .-->
   </div>
 </div> <!-- FIN ROW -->
 
@@ -145,10 +146,10 @@
 
 <div class="row">
   <div class="col-md-6">
-    <label for="">Link MercadoLibre </label>{{Form::text('link_mercadolibre', NULL, ['class'=>'form-control'])}}
+    <label for="">Link MercadoLibre </label>{{Form::text('linkMercadoLibre', NULL, ['class'=>'form-control'])}}
   </div>
   <div class="col-md-6">
-    <label for="">Link Machinery Trader </label>{{Form::text('link_machinery', NULL, ['class'=>'form-control'])}}
+    <label for="">Link Machinery Trader </label>{{Form::text('LinkMachineryTrader', NULL, ['class'=>'form-control'])}}
   </div>
 </div> <!-- FIN ROW -->
 
@@ -197,9 +198,15 @@
   <div class="col-md-6">
     <h2>¿Se publica en PROMIN.mx?</h2>
     <ul class="lista_radio_inline">
-      <li><label class="radio-inline"><input type="radio" value="1" name="state" checked="">Si</label></li>
-      <li><label class="radio-inline"><input type="radio" value="0" name="state">No</label></li>
+      <li><label class="radio-inline"><input  name="state" type="radio" value="public" name="state" checked="">Si</label></li>
+      <li><label class="radio-inline"><input  name="state" type="radio" value="hidden" name="state">No</label></li>
     </ul>
   </div>
-{{Form::close()}}
 </div> <!-- FIN ROW -->
+<div class="row">
+  <div class="col-md-12">
+    <hr>
+    <button type="submit" class="btn btn-success btn-lg"><i class="fa fa-floppy-o"></i> Guardar</button>
+  </div>
+</div>
+{{Form::close()}}
